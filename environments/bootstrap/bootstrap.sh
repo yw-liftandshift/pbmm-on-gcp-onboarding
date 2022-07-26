@@ -21,7 +21,7 @@
 
 
 set -e
-export PLAN_FILE="launchpad.`date +%Y-%m-%d.%H%m`.plan"
+export PLAN_FILE="launchpad.$(date +%Y-%m-%d.%H%m).plan"
 export STATE_FILE="default.tfstate"
 
 ##############################################
@@ -54,11 +54,11 @@ if ! gcloud config list --format json > /dev/null; then
  exit 1
 elif gcloud config list --format json > /dev/null; then
   USER=$(gcloud config list --format json|jq .core.account | sed 's/"//g')
-  DOMAIN=$(echo $USER | sed 's/"//g' | cut -f2 -d@)
+  DOMAIN=$(echo "$USER" | sed 's/"//g' | cut -f2 -d@)
 fi
   echo "User: ${USER}"
   echo "Domain: ${DOMAIN}"
-  read -p "Is this is user and domain of the organization you want to deploy to? (y/n) `echo $'\n> '` " -r
+  read -p "Is this is user and domain of the organization you want to deploy to? (y/n) $(echo $'\n> ') " -r
 
 if [[ $REPLY =~ ^[Nn]$ ]]; then
   echo "Login first with: gcloud auth login"
@@ -81,13 +81,13 @@ if [[ -z "$USER" ]]; then
   auth
 fi
 # Set Vars for Permissions application
-ORGID=$(gcloud organizations list --format="get(name)" --filter=displayName=$DOMAIN)
+ORGID=$(gcloud organizations list --format="get(name)" --filter=displayName="$DOMAIN")
 ROLES=("roles/billing.projectManager" "roles/orgpolicy.policyAdmin" "roles/resourcemanager.folderCreator" "roles/resourcemanager.organizationViewer" "roles/resourcemanager.projectCreator" "roles/billing.projectManager" "roles/billing.viewer")
 
 # Loop through each Role in Roles and apply to Organization node. 
 echo "INFO - Applying roles to Organization Node"
 for i in "${ROLES[@]}" ; do
-  gcloud organizations add-iam-policy-binding $ORGID  --member=user:$USER --role=$i --quiet > /dev/null 1>&1
+  gcloud organizations add-iam-policy-binding "$ORGID"  --member=user:"$USER" --role="$i" --quiet > /dev/null 1>&1
 done
 }
 
@@ -103,7 +103,7 @@ function tf_apply () {
 echo "INFO - Running a plan to ensure the configuration file is correct"
 terraform init
 #terraform plan -var-file=../../config/organization-config.tfvars -var-file=../../config/bootstrap.tfvars -state=${STATE_FILE} -out=${PLAN_FILE}
-terraform plan -state=${STATE_FILE} -out=${PLAN_FILE}
+terraform plan -state=${STATE_FILE} -out="${PLAN_FILE}"
 {
   echo "Please confirm that you have reviewed the plan and wish to apply it. Type 'yes' to proceed";
   read ;
@@ -116,7 +116,7 @@ terraform plan -state=${STATE_FILE} -out=${PLAN_FILE}
 
 # Apply
 echo "INFO - Applying Terraform plan"
-terraform apply -parallelism=30 -state=${STATE_FILE} ${PLAN_FILE}
+terraform apply -parallelism=30 -state=${STATE_FILE} "${PLAN_FILE}"
 }
 
 ##############################################
@@ -132,13 +132,13 @@ NONPROD_BUCKET=$(terraform output -state=${STATE_FILE} -json |jq -r '.tfstate_bu
 PROD_BUCKET=$(terraform output -state=${STATE_FILE} -json |jq -r '.tfstate_bucket_names.value.prod')
 PROJECT_ID=$(terraform output  -state=${STATE_FILE} -json |jq -r '.project_id.value')
 
-STATE_TO_UPLOAD=`find -name ${STATE_FILE}`
+STATE_TO_UPLOAD=$(find . -name ${STATE_FILE})
 STATE_FILE_PATH="environments/bootstrap/${STATE_FILE}"
 if [ "${STATE_TO_UPLOAD}" != "" ]; then
   # Upload file to storage
   # Container - tfstate (hard code and must align to core_infrastructure/bootstrap/terraform.tfvars)
   echo "INFO - Uploading ${STATE_TO_UPLOAD} to ${COMMON_BUCKET}/${STATE_FILE_PATH} ${PROJECT_ID}"
-  gsutil cp ${STATE_TO_UPLOAD} gs://${COMMON_BUCKET}/${STATE_FILE_PATH}
+  gsutil cp "${STATE_TO_UPLOAD}" gs://"${COMMON_BUCKET}"/${STATE_FILE_PATH}
 fi
 }
 
@@ -157,7 +157,7 @@ fi
 function backend () {
 #TF_SVC_ACCT=$(terraform output -state=${STATE_FILE} -json |jq -r '.service_account_email.value')
 TF_SVC_ACCT=$(jq -r .outputs.service_account_email.value ${STATE_FILE})
-cat << EOF > ${1}/backend.tf
+cat << EOF > "${1}"/backend.tf
 
 terraform {
   backend "gcs" {
@@ -183,7 +183,7 @@ data "terraform_remote_state" "common" {
 }
 
 EOF
-cat << EOF > ${1}/provider.tf
+cat << EOF > "${1}"/provider.tf
 provider "google" {
   alias = "impersonate"
   scopes = [
@@ -219,7 +219,7 @@ EOF
 
 function provider () {
 TF_SVC_ACCT=$(jq -r .outputs.service_account_email.value ${STATE_FILE})
-cat << EOF > ${1}/provider.tf
+cat << EOF > "${1}"/provider.tf
 provider "google" {
   alias = "impersonate"
   scopes = [
@@ -305,10 +305,10 @@ provider "."
 echo "INFO - Create common provider"
 provider "../common"
 echo "INFO - Create nonprod backend and provider"
-backend "../nonprod" $NONPROD_BUCKET $NONPROD_STATE_PREFIX $BOOTSTRAP_STATE_PREFIX $COMMON_STATE_PREFIX $COMMON_BUCKET
+backend "../nonprod" "$NONPROD_BUCKET" $NONPROD_STATE_PREFIX $BOOTSTRAP_STATE_PREFIX $COMMON_STATE_PREFIX "$COMMON_BUCKET"
 provider "../nonprod"
 echo "INFO - Create prod backend and provider"
-backend "../prod" $PROD_BUCKET $PROD_STATE_PREFIX $BOOTSTRAP_STATE_PREFIX $COMMON_STATE_PREFIX $COMMON_BUCKET
+backend "../prod" "$PROD_BUCKET" $PROD_STATE_PREFIX $BOOTSTRAP_STATE_PREFIX $COMMON_STATE_PREFIX "$COMMON_BUCKET"
 provider "../prod"
 
 else 
@@ -330,15 +330,15 @@ function create_csr () {
   CLOUD_SOURCE_REPO=$(jq -r '.outputs.csr_name.value' ${STATE_FILE}) || echo "ERROR - Issue finding repo value in statefile"
   PROJECT_ID=$(jq -r '.outputs.project_id.value' ${STATE_FILE}) || echo "ERROR - Issue finding project_id value in statefile"
   echo "Specify your git config email"
-  read GIT_CONFIG_EMAIL
+  read -r GIT_CONFIG_EMAIL
   echo "Specify your git config name"
-  read GIT_CONFIG_NAME
+  read -r GIT_CONFIG_NAME
   (cd ../../; env -i git init)
   (cd ../../; env -i git checkout -b main)
-  (cd ../../; git config user.name $GIT_CONFIG_NAME)
+  (cd ../../; git config user.name "$GIT_CONFIG_NAME")
   (cd ../../; git config credential.helper gcloud.sh)
-  (cd ../../; git config user.email $GIT_CONFIG_EMAIL)
-  (cd ../../; env -i git add -A && git commit -m "bootstrap run `date +%Y-%m-%d.%H%m`" || echo "ERROR - Error committing changes to git" )
+  (cd ../../; git config user.email "$GIT_CONFIG_EMAIL")
+  (cd ../../; env -i git add -A && git commit -m "bootstrap run $(date +%Y-%m-%d.%H%m)" || echo "ERROR - Error committing changes to git" )
   echo "INFO - Check if CSR is already a git remote"
   if git config remote.csr.url > /dev/null; then
     echo "INFO - Check if CSR is malformed"
@@ -351,7 +351,7 @@ function create_csr () {
       echo "INFO - CSR was updated $(env -i git config remote.csr.url)"
     fi
     NEWURL=$(env -i git config remote.csr.url)
-    read -p "INFO - Is this URL correct? ${NEWURL} (y/n) `echo $'\n> '`" -r
+    read -p "INFO - Is this URL correct? ${NEWURL} (y/n) $(echo $'\n> ')" -r
     echo ""
     if [[ $REPLY =~ ^[Yy]$ ]]; then
       echo "INFO - Pushing code to CSR"
@@ -359,8 +359,8 @@ function create_csr () {
       echo "INFO - Code pushed to CSR"
     else 
       (cd ../../; env -i git remote remove csr)
-      read -p "INFO - Enter the url: https://source.developers.google.com/p/PROJECT_ID/r/CLOUD_SOURCE_REPO `echo $'\n> '`" 
-      (cd ../../; env -i git remote add csr $REPLY)
+      read -rp "INFO - Enter the url: https://source.developers.google.com/p/PROJECT_ID/r/CLOUD_SOURCE_REPO $(echo $'\n> ')" 
+      (cd ../../; env -i git remote add csr "$REPLY")
       echo "INFO - Pushing code to CSR"
       (cd ../../; env -i git push -f --all csr)
       echo "INFO - Code pushed to CSR"
