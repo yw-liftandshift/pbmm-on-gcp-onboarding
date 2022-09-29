@@ -31,7 +31,7 @@ org_policies = {
 folders = {
    # switch out parent depending on whether you are running directly off the organization or a folder
   #parent = "organizations/946862951350" #REQUIRED Edit, format "organizations/#############" or "folders/#############"
-  parent = "folders/" #REQUIRED Edit, format "organizations/#############" or "folders/#############"
+  parent = "organizations/946862951350" #REQUIRED Edit, format "organizations/#############" or "folders/#############"
   names  = ["Infrastructure", "Sandbox", "Workloads", "Audit and Security", "Automation", "Shared Services"] # Production, NonProduction and Platform are included in the module
   subfolders_1 = {
     SharedInfrastructure = "Infrastructure"
