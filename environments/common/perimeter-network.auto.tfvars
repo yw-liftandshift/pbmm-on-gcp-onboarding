@@ -94,7 +94,7 @@ ha_perimeter_net = {
   services                       = ["logging.googleapis.com"]
   networks = [
     {
-      network_name                           = "privpervpc" # REQUIRED EDIT - example: depthaper
+      network_name                           = "perimvpc" # REQUIRED EDIT - example: depthaper
       description                            = "The Perimeter VPC"
       routing_mode                           = "GLOBAL"
       shared_vpc_host                        = false

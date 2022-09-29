@@ -71,7 +71,7 @@ audit = {                                  # REQUIRED OBJECT. Must include an au
       description          = "Org Sink"             # OPTIONAL EDIT. Required value as it cannot be left null.
       filter               = "severity >= WARNING"  # OPTIONAL EDIT. Required value as it cannot be left null.
       retention_period     = 1                      # OPTIONAL EDIT. Required value as it cannot be left null.
-      bucket_viewer        = "gcp-organization-view@gcp.mcn.gouv.qc.ca" # REQUIRED EDIT. 
+      bucket_viewer        = "group:gcp-organization-view@gcp.mcn.gouv.qc.ca" # REQUIRED EDIT. 
     }
   }
   audit_lables = {}
