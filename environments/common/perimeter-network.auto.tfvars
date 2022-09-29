@@ -130,7 +130,7 @@ management_perimeter_net = {
   services                       = ["logging.googleapis.com"]
   networks = [
     {
-      network_name                           = "<management-perimeter-vpc-name>" # REQUIRED EDIT - example: deptmgmtper
+      network_name                           = "mgmtvpc" # REQUIRED EDIT - example: deptmgmtper
       description                            = "The Perimeter VPC"
       routing_mode                           = "GLOBAL"
       shared_vpc_host                        = false
