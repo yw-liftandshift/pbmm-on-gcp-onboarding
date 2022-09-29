@@ -71,7 +71,7 @@ audit = {                                  # REQUIRED OBJECT. Must include an au
       description          = "Org Sink"             # OPTIONAL EDIT. Required value as it cannot be left null.
       filter               = "severity >= WARNING"  # OPTIONAL EDIT. Required value as it cannot be left null.
       retention_period     = 1                      # OPTIONAL EDIT. Required value as it cannot be left null.
-      bucket_viewer        = "user:user@google.com" # REQUIRED EDIT. 
+      bucket_viewer        = "gcp-organization-view@gcp.mcn.gouv.qc.ca" # REQUIRED EDIT. 
     }
   }
   audit_lables = {}
@@ -118,7 +118,7 @@ organization_iam = [
 ]
 
 guardrails = {
-  user_defined_string = "guardrails" # Optional EDIT. Must be unique. Defines the guardrails project in form department_codeEnvironmente-owner-user_defined_string
+  user_defined_string = "lzguardrailsqc" # Optional EDIT. Must be unique. Defines the guardrails project in form department_codeEnvironmente-owner-user_defined_string
   billing_account     = "01A591-8B15FB-F4CD0B" # REQUIRED EDIT. Billing Account in the format of ######-######-######
   org_id_scan_list = [     # REQUIRED EDIT. Organization Id list for service account to have cloud asset viewer permission
   ]
