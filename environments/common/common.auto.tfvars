@@ -62,12 +62,12 @@ audit = {                                  # REQUIRED OBJECT. Must include an au
   billing_account                = "01A591-8B15FB-F4CD0B"      # REQUIRED EDIT. Define the audit billing account
   audit_streams = {
     prod = {
-      bucket_name          = "pbmm-audit-bucket"                     # REQUIRED EDIT. Must be globally unique, used for the audit bucket
+      bucket_name          = "pbmmauditbucketqc"                     # REQUIRED EDIT. Must be globally unique, used for the audit bucket
       is_locked            = false                  # OPTIONAL EDIT. Required value as it cannot be left null.
       bucket_force_destroy = true                   # OPTIONAL EDIT. Required value as it cannot be left null.
       bucket_storage_class = "STANDARD"             # OPTIONAL EDIT. Required value as it cannot be left null.
       labels               = {}                     # OPTIONAL EDIT. 
-      sink_name            = ""                     # REQUIRED EDIT. Must be unique across organization
+      sink_name            = "pbmmauditsinkqc"                     # REQUIRED EDIT. Must be unique across organization
       description          = "Org Sink"             # OPTIONAL EDIT. Required value as it cannot be left null.
       filter               = "severity >= WARNING"  # OPTIONAL EDIT. Required value as it cannot be left null.
       retention_period     = 1                      # OPTIONAL EDIT. Required value as it cannot be left null.
