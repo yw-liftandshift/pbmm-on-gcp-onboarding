@@ -67,7 +67,8 @@ resource "google_logging_billing_account_sink" "billing-sink" {
   # Can export to pubsub, cloud storage, or bigquery
   destination = "storage.googleapis.com/${google_storage_bucket.log-bucket.name}"
   depends_on = [
-    google_storage_bucket.log-bucket
+    google_storage_bucket.log-bucket,
+    google_project_iam_binding.log-writer
   ]
 }
 
