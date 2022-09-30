@@ -59,14 +59,14 @@ module "audit" {
   additional_user_defined_string = var.additional_user_defined_string
 }
 
-resource "google_logging_billing_account_sink" "billing-sink" {
+/*resource "google_logging_billing_account_sink" "billing-sink" {
   name            = var.sink_name 
   description     = "Sink for all Billing accounts"
   billing_account =  var.billing_account
 
   # Can export to pubsub, cloud storage, or bigquery
   destination = "storage.googleapis.com/${google_storage_bucket.log-bucket.name}"
-}
+}*/
 
 resource "google_storage_bucket" "log-bucket" {
   name                           = var.bucket_name 
