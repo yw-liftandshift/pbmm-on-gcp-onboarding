@@ -111,9 +111,6 @@ resource "google_project_iam_binding" "log-writer" {
   members = [
     google_logging_billing_account_sink.billing-sink.writer_identity,
   ]
-   depends_on = [
-    google_storage_bucket.log-bucket
-   ]
 }
 
 resource "google_service_account" "billing_service_account" {
