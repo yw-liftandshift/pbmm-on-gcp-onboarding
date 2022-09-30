@@ -102,13 +102,13 @@ resource "google_storage_bucket" "log-bucket" {
   } 
 }
 
-/*resource "google_project_iam_binding" "log-writer" {
+resource "google_project_iam_binding" "log-writer" {
   role = "roles/storage.objectCreator"
   project       = module.audit_project.project_id
   members = [
     google_logging_billing_account_sink.billing-sink.writer_identity,
   ]
-}*/
+}
 
 resource "google_service_account" "billing_service_account" {
   account_id    = "billing-service-account"
