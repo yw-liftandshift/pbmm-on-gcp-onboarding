@@ -36,7 +36,7 @@ prod_host_net = {
       mtu                                    = 0
       subnets = [
         {
-          subnet_name           = "subnet01"
+          subnet_name           = "prod-zone1"
           subnet_ip             = "10.10.20.0/24"
           subnet_region         = "northamerica-northeast1"
           subnet_private_access = true
@@ -131,7 +131,7 @@ prod_host_net = {
       mtu                                    = 0
       subnets = [
         {
-          subnet_name           = "subnet01"
+          subnet_name           = "prod-zone2"
           subnet_ip             = "10.10.24.0/24"
           subnet_region         = "northamerica-northeast1"
           subnet_private_access = true
