@@ -17,8 +17,8 @@
 
 
 nonprod_host_net = {
-  user_defined_string            = "qcb" # Used to create project name - must be globally unique in aggregate
-  additional_user_defined_string = "" # check total 61 char limit with this addition
+  user_defined_string            = "nonprod" # Used to create project name - must be globally unique in aggregate
+  additional_user_defined_string = "host" # check total 61 char limit with this addition
   billing_account                = "01A591-8B15FB-F4CD0B" #"######-######-######"
   services                       = ["logging.googleapis.com" , "dns.googleapis.com"]
   networks = [
@@ -36,7 +36,7 @@ nonprod_host_net = {
       mtu                                    = 0
       subnets = [
         {
-          subnet_name           = "subnet01"
+          subnet_name           = "nonprod"
           subnet_ip             = "10.10.20.0/24"
           subnet_region         = "northamerica-northeast1"
           subnet_private_access = true
