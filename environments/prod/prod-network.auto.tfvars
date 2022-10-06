@@ -23,7 +23,7 @@ prod_host_net = {
   services                       = ["logging.googleapis.com"]
   networks = [
     {
-      network_name                           = "prod-sharedvpc-zone1"
+      network_name                           = "prod-shared-zone1"
       description                            = "The Production Shared VPC Sensitive"
       routing_mode                           = "GLOBAL"
       shared_vpc_host                        = true
@@ -118,7 +118,7 @@ prod_host_net = {
       ]
     },
     {
-      network_name                           = "prod-sharedvpc-zone2"
+      network_name                           = "prod-shared-zone2"
       description                            = "The Production Shared VPC"
       routing_mode                           = "GLOBAL"
       shared_vpc_host                        = true
