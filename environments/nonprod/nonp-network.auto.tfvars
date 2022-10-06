@@ -18,7 +18,7 @@
 
 nonprod_host_net = {
   user_defined_string            = "nonprod" # Used to create project name - must be globally unique in aggregate
-  additional_user_defined_string = "host" # check total 61 char limit with this addition
+  additional_user_defined_string = "host1" # check total 61 char limit with this addition
   billing_account                = "01A591-8B15FB-F4CD0B" #"######-######-######"
   services                       = ["logging.googleapis.com" , "dns.googleapis.com"]
   networks = [
