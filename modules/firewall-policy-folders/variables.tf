@@ -12,14 +12,12 @@ variable "firewall_policies" {
     target_service_accounts = list(string)
   })))
   default  = {}
-  nullable = false
 }
 
 variable "firewall_policy_association" {
   description = "The hierarchical firewall policy to associate to this folder. Must be either a key in the `firewall_policies` map or the id of a policy defined somewhere else."
   type        = map(string)
   default     = {}
-  nullable    = false
 }
 
 variable "firewall_policy_factory" {
