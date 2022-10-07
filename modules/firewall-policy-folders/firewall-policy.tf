@@ -39,7 +39,7 @@ locals {
 resource "google_compute_firewall_policy" "policy" {
   for_each   = local.firewall_policies
   short_name = each.key
-  parent     = local.folder.id
+  parent     = var.folder_id
 }
 
 resource "google_compute_firewall_policy_rule" "rule" {
