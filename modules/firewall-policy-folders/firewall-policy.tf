@@ -36,6 +36,12 @@ locals {
   }
 }
 
+resource "google_compute_firewall_policy" "policy" {
+  for_each   = local.firewall_policies
+  short_name = each.key
+  parent     = local.folder.id
+}
+
 resource "google_compute_firewall_policy_rule" "rule" {
   for_each                = local.firewall_rules
   firewall_policy         = google_compute_firewall_policy.policy[each.value.policy].id

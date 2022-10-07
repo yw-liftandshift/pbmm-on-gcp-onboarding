@@ -71,6 +71,7 @@ module "core-folders" {
 
 module "folder-firewall-policy" {
   source          = "../../modules/firewall-policy-folders"
+  folder_id = module.core-folders.ids["ProdNetworking"]
  #parent           = module.core-folders.ids["ProdNetworking"]
   #names           = var.policy_folders.names
   firewall_policy_factory = {

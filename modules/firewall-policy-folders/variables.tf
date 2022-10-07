@@ -35,3 +35,7 @@ variable "folder_create" {
   type        = bool
   default     = false
 }
+
+variable "folder_id" {
+    type        = string
+}
