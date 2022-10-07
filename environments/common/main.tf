@@ -68,6 +68,22 @@ module "core-folders" {
   subfolders_second_level = var.folders.subfolders_2
 }
 
+
+module "folder-firewall-policy" {
+  source          = "../../modules/firewall-policy-folders"
+ #parent           = module.core-folders.ids["ProdNetworking"]
+  #names           = var.policy_folders.names
+  firewall_policy_factory = {
+    cidr_file   = "data/cidrs.yaml"
+    policy_name = null
+    rules_file  = "data/rules.yaml"
+  }
+  firewall_policy_association = {
+    factory-policy = module.core-folders.ids["ProdNetworking"]
+  }
+}
+
+
 module "core-iam" {
   source           = "../../modules/iam"
   sa_create_assign = var.service_accounts
