@@ -69,7 +69,7 @@ resource "google_compute_firewall_policy_rule" "rule" {
 
 resource "google_compute_firewall_policy_association" "association" {
   for_each          = var.firewall_policy_association
-  name              = replace(var.folder_id, "/", "-")
+  name              = "test"#replace(var.folder_id, "/", "-")
   attachment_target = var.folder_id
   firewall_policy   = try(google_compute_firewall_policy.policy[each.value].id, each.value)
 }
