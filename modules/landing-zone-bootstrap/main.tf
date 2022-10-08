@@ -57,14 +57,14 @@ resource "google_organization_iam_member" "tf_sa_org_perms_cb" {
 
 resource "google_organization_iam_member" "tf_sa_org_security_cb" {
   org_id     = var.org_id
-  role       = compute.securityAdmin
+  role       = "roles/compute.securityAdmin"
   member     = "serviceAccount:${module.project.number}@cloudbuild.gserviceaccount.com"
   depends_on = [module.project]
 }
 
 resource "google_organization_iam_member" "tf_sa_org_network_cb" {
   org_id     = var.org_id
-  role       = compute.networkAdmin
+  role       = "roles/compute.networkAdmin"
   member     = "serviceAccount:${module.project.number}@cloudbuild.gserviceaccount.com"
   depends_on = [module.project]
 }
