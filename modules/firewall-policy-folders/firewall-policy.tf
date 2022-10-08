@@ -67,7 +67,7 @@ resource "google_compute_firewall_policy_rule" "rule" {
   }
 }
 
-resource "google_compute_firewall_policy_association" "association" {
+/*resource "google_compute_firewall_policy_association" "association" {
   for_each          = var.firewall_policy_association
   name              = "test"#replace(var.folder_id, "/", "-")
   attachment_target = var.target_folder
@@ -75,5 +75,5 @@ resource "google_compute_firewall_policy_association" "association" {
   depends_on = [
     google_compute_firewall_policy.policy
   ]
-}
+}*/
 
