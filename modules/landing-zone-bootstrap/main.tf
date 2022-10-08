@@ -55,6 +55,21 @@ resource "google_organization_iam_member" "tf_sa_org_perms_cb" {
   depends_on = [module.project]
 }
 
+resource "google_organization_iam_member" "tf_sa_org_security_cb" {
+  org_id     = var.org_id
+  role       = compute.securityAdmin
+  member     = "serviceAccount:${module.project.number}@cloudbuild.gserviceaccount.com"
+  depends_on = [module.project]
+}
+
+resource "google_organization_iam_member" "tf_sa_org_network_cb" {
+  org_id     = var.org_id
+  role       = compute.networkAdmin
+  member     = "serviceAccount:${module.project.number}@cloudbuild.gserviceaccount.com"
+  depends_on = [module.project]
+}
+	
+	
 ###### Bootstrap project permissions
 resource "google_project_iam_member" "tf_sa_project_perms_cb" {
   for_each = toset(local.project_roles)
