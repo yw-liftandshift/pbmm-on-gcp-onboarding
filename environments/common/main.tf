@@ -82,7 +82,7 @@ module "folder-firewall-policy" {
     rules_file  = "data/rules.yaml"
   }
   firewall_policy_association = {
-    factory-policy = module.folder-firewall-policy.firewall_policy_id["factory"]
+    #factory-policy = module.folder-firewall-policy.firewall_policy_id["factory"]
     #module.core-folders.ids["folders_map_2_levels"]["ProdNetworking"].id
   }
 }
