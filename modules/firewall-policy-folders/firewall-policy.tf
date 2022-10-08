@@ -72,5 +72,8 @@ resource "google_compute_firewall_policy_association" "association" {
   name              = "test"#replace(var.folder_id, "/", "-")
   attachment_target = var.target_folder
   firewall_policy   = try(google_compute_firewall_policy.policy[each.value].id, each.value)
+  depends_on = [
+    google_compute_firewall_policy.policy
+  ]
 }
 
