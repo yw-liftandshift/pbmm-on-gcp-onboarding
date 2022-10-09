@@ -91,7 +91,7 @@ resource "google_compute_firewall_policy_association" "association" {
   #for_each          = var.firewall_policy_association
   name              = replace(var.target_folder, "/", "-")
   attachment_target = var.target_folder
-  firewall_policy   = module.folder-firewall-policy.policy["factory"].id
+  firewall_policy   = module.folder-firewall-policy["factory"].id
   depends_on = [
     module.folder-firewall-policy
   ]
