@@ -72,7 +72,6 @@ module "core-folders" {
 module "folder-firewall-policy" {
   source          = "../../modules/firewall-policy-folders"
   folder_id = "organizations/946862951350"
-  target_folder = "folders/521477516733"
   #module.core-folders.ids["folders_map_2_levels"]["ProdNetworking"].id
  #parent           = module.core-folders.ids["ProdNetworking"]
   #names           = var.policy_folders.names
