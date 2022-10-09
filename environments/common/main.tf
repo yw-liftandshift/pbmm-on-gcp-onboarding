@@ -90,7 +90,7 @@ module "folder-firewall-policy" {
 resource "google_compute_firewall_policy_association" "association" {
   #for_each          = var.firewall_policy_association
   name              = replace(var.target_folder, "/", "-")
-  attachment_target = var.target_folder
+  attachment_target = data.terraform_remote_state.common.outputs.folders_map_2_levels["ProdNetworking"].id
   firewall_policy   = data.terraform_remote_state.common.outputs.firewall_policy.firewall-policy["factory"].id
 }
 
