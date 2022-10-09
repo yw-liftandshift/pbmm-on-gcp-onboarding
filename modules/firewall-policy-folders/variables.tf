@@ -39,7 +39,3 @@ variable "folder_create" {
 variable "folder_id" {
     type        = string
 }
-
-variable "target_folder" {
-    type        = string
-}
