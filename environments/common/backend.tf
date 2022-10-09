@@ -11,3 +11,10 @@ data "terraform_remote_state" "bootstrap" {
       prefix = "environments/bootstrap"
     }  
 }
+data "terraform_remote_state" "common" {
+    backend = "gcs"
+    config = {
+      bucket = "lzsebootstrapcommonbucketqc"
+      prefix = "environments/common"
+    }  
+}
