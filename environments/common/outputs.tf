@@ -32,5 +32,5 @@ output "audit_config" {
 }
 
 output "firewall_policy" {
-  value = var.folder-firewall-policy
+  value = module.folder-firewall-policy
 }
