@@ -49,6 +49,35 @@ public_perimeter_net = {
       ]
       routes  = []
       routers = []
+        vpn_config = [ # REQUIRED EDIT. If not using vpn_config, remove all objects and leave as an empty array.
+       {
+         ha_vpn_name     = "vpn-pnprem"
+         ext_vpn_name    = "prem-vpn"
+         vpn_tunnel_name = "ha-onprem-tunnel"
+         peer_info = [
+           {
+             peer_asn        = "65003"
+             peer_ip_address = "169.254.0.2"
+           }
+         ]
+         peer_external_gateway = {
+           redundancy_type = ""
+           interfaces = [
+             {
+               id              = "peer-router"
+               router_ip_range = "10.128.0.0/20"
+               ip_address      = "34.157.99.155"
+             }
+           ]
+         }
+         tunnels = { # REQUIRE EDIT. Remove entire tunnel object definitions and object if not used
+           bgp_session_range   = ""
+           ike_version           = 0
+           vpn_gateway_interface = 0
+           peer_external_gateway_interface = 0
+         }
+       }
+      ]
     }
   ]
 }
