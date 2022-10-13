@@ -9,3 +9,8 @@ variable "destination_ips" {
   description = "destination ips"
   default     = null
 }
+variable "network" {
+  type        = string
+  description = "network"
+  default     = null
+}
