@@ -49,7 +49,7 @@ public_perimeter_net = {
       ]
       routes  = []
       routers = []
-        vpn_config = [ # REQUIRED EDIT. If not using vpn_config, remove all objects and leave as an empty array.
+      vpn_config = [ # REQUIRED EDIT. If not using vpn_config, remove all objects and leave as an empty array.
        {
          ha_vpn_name     = "vpn-pnprem"
          ext_vpn_name    = "prem-vpn"

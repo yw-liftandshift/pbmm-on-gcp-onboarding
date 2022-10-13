@@ -22,3 +22,10 @@ data "terraform_remote_state" "common" {
     }
 }
 
+data "terraform_remote_state" "prod" {
+    backend = "gcs"
+    config = {
+      bucket = "lzsebootstrapprodbucketqc"
+      prefix = "environments/prod"
+    }
+}

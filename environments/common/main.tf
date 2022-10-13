@@ -164,6 +164,32 @@ module "net-perimeter-prj" {
   depends_on = []
 }
 
+# resource "google_compute_router" "cr-uscentral1-to-prod-vpc" {
+#   name    = "onprem-vpc-tunnels"
+#   region  = "northamerica-northeast1"
+#   network = var.public_perimeter_net.networks.network_name
+#   project = module.net-perimeter-prj.project_id
+
+#   bgp {
+#     asn = "64519"
+#   }
+# }
+# module "vpn-onprem-internal" {
+#   source  = "../../modules/vpn"
+
+#   project_id         = module.net-perimeter-prj.project_id
+#   network            = var.public_perimeter_net.networks.network_name
+#   region             = "northamerica-northeast1"
+#   gateway_name       = "vpn-prod-internal"
+#   tunnel_name_prefix = "vpn-tn-prod-internal"
+#   shared_secret      = "secrets"
+#   tunnel_count       = 1
+#   peer_ips           = ["1.1.1.1", "2.2.2.2"]
+
+#   route_priority = 1000
+#   remote_subnet  = ["10.17.0.0/22", "10.16.80.0/24"]
+# }
+
 module "net-ha-perimeter" {
   source                         = "../../modules/network"
   project_id                     = module.net-perimeter-prj.project_id
@@ -179,6 +205,7 @@ module "net-ha-perimeter" {
   additional_user_defined_string = var.ha_perimeter_net.additional_user_defined_string
   depends_on = []
 }
+
 
 module "net-mgmt-perimeter" {
   source                         = "../../modules/network"
