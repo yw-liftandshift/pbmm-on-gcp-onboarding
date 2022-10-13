@@ -38,11 +38,11 @@ module "net-host-prj" {
   ]
 }
 
-# module "web-app"{
-#   source = "../../modules/subnet-links"
-#   source_ips = data.terraform_remote_state.prod.resources
+module "web-app"{
+  source = "../../modules/subnet-links"
+  source_ips = data.terraform_remote_state.prod.resources
 
-# }
+}
 module "vpc-svc-ctl" {
   source                    = "../../modules/vpc-service-controls"
   policy_id                 = data.terraform_remote_state.common.outputs.access_context_manager_policy_id
