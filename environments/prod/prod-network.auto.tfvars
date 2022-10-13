@@ -36,8 +36,26 @@ prod_host_net = {
       mtu                                    = 0
       subnets = [
         {
-          subnet_name           = "prod-zone1"
+          subnet_name           = "prod-zone1-web"
           subnet_ip             = "10.10.20.0/24"
+          subnet_region         = "northamerica-northeast1"
+          subnet_private_access = true
+          description           = "This subnet has a description"
+          log_config = {
+            aggregation_interval = "INTERVAL_5_SEC"
+            flow_sampling        = 0.5
+            metadata             = ""
+          }
+          secondary_ranges = [# REQUIRED EDIT. Remove entire object in array if not using secondary ranges.
+#            {
+#              range_name    = ""
+#              ip_cidr_range = ""
+#            }
+          ]
+        },
+        {
+          subnet_name           = "prod-zone1-app"
+          subnet_ip             = "10.10.30.0/24"
           subnet_region         = "northamerica-northeast1"
           subnet_private_access = true
           description           = "This subnet has a description"
