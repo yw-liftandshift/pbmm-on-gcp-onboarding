@@ -40,6 +40,7 @@ module "net-host-prj" {
 
 module "web-app"{
   source = "../../modules/subnet-links"
+  network = module.net-host-prj.network_name[var.prod_host_net.networks[0].network_name] 
   source_ips = var.prod_host_net.networks[0].subnets[0].subnet_ip
   destination_ips = var.prod_host_net.networks[0].subnets[1].subnet_ip
   //data.terraform_remote_state.prod.resources.module.net-host-prj.module.network["prod-shared-zone1"].module.subnets["prod-zone1"].ip_cidr_range
