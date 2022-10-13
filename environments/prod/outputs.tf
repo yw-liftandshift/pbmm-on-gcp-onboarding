@@ -1,3 +1,3 @@
 output "prod_network" {
-  value = module.net-host-prj.networks
+  value = module.net-host-prj
 }
