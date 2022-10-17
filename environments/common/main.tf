@@ -213,3 +213,83 @@ module "net-public-perimeter-firewall" {  #net-perimeter-prj-firewall
     module.net-private-perimeter
   ]
 }
+
+# H.A VPN From GCP to On-Prem
+module "vpn-prod-internal" {
+  source  = "../../network/modules/vpn"
+  version = "~> 1.2.0"
+
+  project_id         = var.project_id
+  network            = module.net-perimeter-prj.network_name[var.public_perimeter_net.networks[0].network_name]
+  region             = var.region
+  gateway_name       = var.gateway_name
+  tunnel_name_prefix = var.tunnel_name_prefix
+  shared_secret      = module.secret
+  tunnel_count       = 1
+  peer_ips           = ["", ""]
+
+  route_priority = 1000
+  remote_subnet  = ["", ""]
+}
+
+module "external_gateway" {
+  source                = "../../network/modules/vpn"
+  project  = var.project_id
+  name     = module.ext_vpn_name.result
+  redundancy_type = var.peer_external_gateway.redundancy_type
+  dynamic "interface" {
+    for_each = var.peer_external_gateway.interfaces
+    content {
+      id         = module.interface.value.id
+      ip_address = module.interface.value.ip_address
+    }
+  }
+}
+
+module "tunnels" {
+  source                          = "../../network/modules/vpn"
+  project                         = var.project_id
+  for_each                        = { for peer in var.peer_external_gateway.interfaces : peer.id => peer }
+  region                          = var.region
+  name                            = module.vpn_tunnel_name[each.key].result
+  router                          = var.router_name
+  peer_external_gateway           = module.external_gateway.self_link
+  peer_external_gateway_interface = module.each.value.id
+  vpn_gateway_interface           = module.each.value.id
+  ike_version                     = var.tunnels.ike_version
+  shared_secret                   = module.random_id.secret.b64_url
+  vpn_gateway                     = module.ha_gateway.self_link
+}
+
+module "interface" {
+  source     = "../../network/modules/vpn"
+  project    = var.project_id
+  for_each   = { for peer in var.peer_external_gateway.interfaces : peer.id => peer }
+  name       = "${var.router_name}-interface-${each.value.id}"
+  router     = var.router_name
+  region     = var.region
+  ip_range   = module.each.value.router_ip_range
+  vpn_tunnel = module.tunnels[each.value.id].self_link
+}
+
+module "router_peer" {
+  source     = "../../network/modules/vpn"
+  project         = var.project_id
+  for_each        = { for peer in var.peer_info : peer.peer_asn => peer}
+  name            = "${var.router_name}-peer-${each.value.peer_asn}"
+  router          = var.router_name
+  region          = var.region
+  peer_asn        = module.each.value.peer_asn
+  peer_ip_address = module.each.value.peer_ip_address
+  interface       = "${var.router_name}-interface-${index(var.peer_info, each.value)}"
+
+  depends_on = [
+      google_compute_router_interface.interface
+  ]
+}
+
+module "secret" {
+  source     = "../../network/modules/vpn"
+  project         = var.project_id
+  byte_length = 8
+}
