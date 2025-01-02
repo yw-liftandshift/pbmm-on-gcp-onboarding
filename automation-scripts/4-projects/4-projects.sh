@@ -1,12 +1,15 @@
 #!/bin/bash
 set -xe
 
-ls -la
-rm -rf -- $(ls | grep -v env.tar.gz)
-ls -la
-tar -zxf env.tar.gz
-ls -la
-rm -f env.tar.gz
+if [ -f "./env.tar.gz" ]; then
+  ls -la
+  rm -rf -- $(ls | grep -v env.tar.gz)
+  ls -la
+  tar -zxf env.tar.gz
+  ls -la
+  rm -f env.tar.gz
+fi
+
 # Set base directory 
 base_dir=$(pwd)
 
@@ -105,7 +108,14 @@ set +e
 
 unset GOOGLE_IMPERSONATE_SERVICE_ACCOUNT
 
+rm -rf ./business_units/development/.terraform
+rm -rf ./business_units/nonproduction/.terraform
+rm -rf ./business_units/production/.terraform
+rm -rf ./business_units/management/.terraform
+rm -rf ./business_units/identity/.terraform
+rm -rf ./business_units/shared/.terraform
 cd ..
 tar -zcf env.tar.gz --exclude env.tar.gz . 
+tar -zcf env.tar.gz --exclude env.tar.gz --exclude .git --exclude docs . 
 ls -la
 pwd

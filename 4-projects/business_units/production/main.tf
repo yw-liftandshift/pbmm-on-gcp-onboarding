@@ -77,7 +77,7 @@ module "prj_config" {
   source              = "../../modules/prj_config"
   env                 = local.env
   remote_state_bucket = var.remote_state_bucket
-  config_file         = abspath("${path.module}/../../../config/prj_config.yaml")
+  config_file         = "../../prj_config.yaml"
 }
 
 module "bu_folder" {

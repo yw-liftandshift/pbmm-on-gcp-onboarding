@@ -31,7 +31,7 @@ variable "ftntproject" {
 
 variable "image" {
   type    = string
-  default = "projects/fortigcp-project-001/global/images/fortinet-fgtondemand-743-20240208-001-w-license"
+  default = "projects/fortigcp-project-001/global/images/fortinet-fgt-743-20240208-001-w-license"
 }
 
 # GCP VNIC type

@@ -63,10 +63,12 @@ resource "google_compute_region_backend_service" "internal_load_balancer_backend
 
   backend {
     group = google_compute_instance_group.umig_active.self_link
+    balancing_mode = "CONNECTION"
   }
 
   backend {
     group = google_compute_instance_group.umig_passive.self_link
+    balancing_mode = "CONNECTION"
   }
 
   health_checks = [

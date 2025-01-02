@@ -35,4 +35,6 @@ module "cai_monitoring" {
   enable_cmek          = true
   encryption_key       = module.kms.keys["key-cai-monitoring"]
   impersonate_sa_email = local.org_step_terraform_service_account_email
+
+  depends_on = [ module.scc_notifications ]
 }

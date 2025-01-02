@@ -31,7 +31,7 @@ module "vpc_config" {
   count  = local.identity_enabled ? 1 : 0
 
   env                = local.env
-  config_file        = abspath("${path.module}/../../../config/vpc_config.yaml")
+  config_file        = "../../vpc_config.yaml"
   restricted_enabled = local.restricted_enabled
 }
 

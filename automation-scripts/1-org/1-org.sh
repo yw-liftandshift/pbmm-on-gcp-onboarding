@@ -19,7 +19,7 @@ ls -ltr
 
 #get organization_id
 export ORGANIZATION_ID=$(terraform -chdir="../0-bootstrap/" output -json common_config | jq '.org_id' --raw-output)
-gcloud scc notifications describe "scc-notify" --organization=${ORGANIZATION_ID}
+$(gcloud scc notifications describe "scc-notify" --organization=${ORGANIZATION_ID} ) || true
 
 # Retrieve AACCESS_CONTEXT_MANAGER_ID Policy ID
 export ACCESS_CONTEXT_MANAGER_ID=$(gcloud access-context-manager policies list --organization ${ORGANIZATION_ID} --format="value(name)")
@@ -59,8 +59,9 @@ set +e
 
 unset GOOGLE_IMPERSONATE_SERVICE_ACCOUNT
 
+rm -rf ./envs/shared/.terraform
 cd ..
 tar -zcf env.tar.gz --exclude env.tar.gz . 
+tar -zcf env.tar.gz --exclude env.tar.gz --exclude .git --exclude docs . 
 ls -la
-
 pwd

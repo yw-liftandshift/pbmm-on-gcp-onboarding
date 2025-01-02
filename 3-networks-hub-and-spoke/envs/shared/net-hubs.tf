@@ -184,7 +184,7 @@ locals {
 
 module "net_hub_config" {
   source             = "../../modules/nhas_config/net_hub_config"
-  config_file        = abspath("${path.module}/../../../config/vpc_config.yaml")
+  config_file        = "../../vpc_config.yaml"
   restricted_enabled = local.restricted_enabled
 }
 

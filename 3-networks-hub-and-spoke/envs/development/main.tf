@@ -28,7 +28,7 @@ module "env_enabled" {
 module "vpc_config" {
   source             = "../../modules/nhas_config/vpc_config"
   env                = local.env
-  config_file        = abspath("${path.module}/../../../config/vpc_config.yaml")
+  config_file        = "../../vpc_config.yaml"
   restricted_enabled = local.restricted_enabled
 }
 
