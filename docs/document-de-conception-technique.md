@@ -1,6 +1,6 @@
-
-
 # Document de conception technique
+
+In English: [Technical  Design Document](./technical-design-document.md)
 
 ## Zone d'accueil PBMM (Protégé B, Intégrité moyenne/Disponibilité moyenne)
 

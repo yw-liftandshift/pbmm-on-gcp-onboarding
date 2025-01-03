@@ -1,6 +1,6 @@
-
-
 # Technical  Design Document
+
+En Français: [Document de conception technique](./document-de-conception-technique.md)
 
 ## PBMM (Protected B, Medium Integrity/Medium Availability) Landing Zone
 

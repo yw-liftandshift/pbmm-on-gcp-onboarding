@@ -2,57 +2,49 @@
 
 # ADO Pipeline Documentation
 
+En Français: [Documentation du pipeline ADO](./documentation-du-pipeline-ado.md)
+
 ## PBMM (Protected B, Medium Integrity/Medium Availability) Landing Zone
 
 
 #### Contents
 
-[Preamble](#heading=h.ybvhj26lhc0v)
-[Overview](#overview)
-[Architecture](#architecture)
-[ADO Pipeline Deployment Flowchart](#ado-pipeline-deployment-flowchart)
-[Infrastructure Design Decisions](#infrastructure-design-decisions)
-[Preparing for Deployment](#preparing-for-deployment)
-[Cloning the azure repository](#cloning-the-azure-repository)
-[Create a GCP Project](#create-a-gcp-project)
-[Groups](#groups)
-[Service Account IAM Prerequisites](#service-account-iam-prerequisites)
-[Azure Library](#azure-library)
-[1\. Variable Group](#1.-variable-group)
-[2\. Secure File](#2.-secure-file)
-[The Azure Pipeline Yaml and Automation Scripts](#the-azure-pipeline-yaml-and-automation-scripts)
-[0-Bootstrap Yaml and Script Execution](#0-bootstrap-yaml-and-script-execution)
-[1-Org Yaml and Script Execution](#1-org-yaml-and-script-execution)
-[2-Environments Yaml and Script Execution](#2-environments-yaml-and-script-execution)
-[3-networks-hub-and-spoke Yaml and Script Execution](#3-networks-hub-and-spoke-yaml-and-script-execution)
-[4-projects Yaml and Script Execution](#4-projects-yaml-and-script-execution)
-[6-org-policies Yaml and Script Execution](#6-org-policies-yaml-and-script-execution)
-[7-fortigate Yaml and Script Execution](#7-fortigate-yaml-and-script-execution)
-[Error Detection in Bash Scripts](#error-detection-in-bash-scripts)
-[Reference README Files](#reference-readme-files)
-[Pipeline Flow Chart](#pipeline-flow-chart)
-[Steps for ADO Pipeline Execution](#steps-for-ado-pipeline-execution)
-[ADO Pipeline Execution Time](#ado-pipeline-execution-time)
-[Output: GCP Folder Structure](#output:-gcp-folder-structure)
-[Steps to Re-run Failed Jobs](#steps-to-re-run-failed-jobs)
-[Re-run New Pipeline on Intermittent errors](#re-run-new-pipeline-on-intermittent-errors)
-[The Cleanup Script](#the-cleanup-script)
+* [Overview](#overview)
+* [Architecture](#architecture)
+* [ADO Pipeline Deployment Flowchart](#ado-pipeline-deployment-flowchart)
+  * [Infrastructure Design Decisions](#infrastructure-design-decisions)
+* [Preparing for Deployment](#preparing-for-deployment)
+  * [Cloning the azure repository](#cloning-the-azure-repository)
+  * [Create a GCP Project](#create-a-gcp-project)
+  * [Groups](#groups)
+  * [Service Account IAM Prerequisites](#service-account-iam-prerequisites)
+  * [Azure Library](#azure-library)
+* [The Azure Pipeline Yaml and Automation Scripts](#the-azure-pipeline-yaml-and-automation-scripts)
+  * [0-Bootstrap Yaml and Script Execution](#0-bootstrap-yaml-and-script-execution)
+  * [1-Org Yaml and Script Execution](#1-org-yaml-and-script-execution)
+  * [2-Environments Yaml and Script Execution](#2-environments-yaml-and-script-execution)
+  * [3-networks-hub-and-spoke Yaml and Script Execution](#3-networks-hub-and-spoke-yaml-and-script-execution)
+  * [4-projects Yaml and Script Execution](#4-projects-yaml-and-script-execution)
+  * [6-org-policies Yaml and Script Execution](#6-org-policies-yaml-and-script-execution)
+  * [7-fortigate Yaml and Script Execution](#7-fortigate-yaml-and-script-execution)
+  * [Error Detection in Bash Scripts](#error-detection-in-bash-scripts)
+  * [Reference README Files](#reference-readme-files)
+* [Steps for ADO Pipeline Execution](#steps-for-ado-pipeline-execution)
+  * [ADO Pipeline Execution Time](#ado-pipeline-execution-time)
+  * [Output: GCP Folder Structure](#output:-gcp-folder-structure)
+  * [Steps to Re-run Failed Jobs](#steps-to-re-run-failed-jobs)
+  * [Re-run New Pipeline on Intermittent errors](#re-run-new-pipeline-on-intermittent-errors)
 
 
 # Overview <a name="overview"></a>
 
-This process will deploy a Landing Zone as outlined in the Technical Design Document for the Canada PBMM Landing Zone.  The Landing Zone is a GitHub-hosted, Terraform-based, PBMM compliant Google Cloud Landing Zone.  Any GC department or agency can clone to their own repository, set variables, and deploy.  The following methodology will guide users through the end-to-end process.
+This process will deploy a Landing Zone as outlined in the [Technical Design Document](./technical-design-document.md) for the Canada PBMM Landing Zone.  The Landing Zone is a GitHub-hosted, Terraform-based, PBMM compliant Google Cloud Landing Zone.  Any GC department or agency can clone to their own repository, set variables, and deploy.  The following methodology will guide users through the end-to-end process.
 
 The documentation comprehensively outlines the Azure DevOps pipeline based deployment option, from its architectural foundation to execution and troubleshooting. It delves into the pipeline's structure, configuration, and the sequence of stages involved in provisioning resources. Key components like the Azure Library and automation scripts are explained, along with details on error handling and performance metrics. The document aims to guide users through the pipeline's setup, execution, and Intermittent issues.
 
 # Architecture <a name="architecture"></a>
 
 ![][image1]
-
-For a complete architectural diagram please review the following PDF resource:  
-[Architectural Overview PDF](https://drive.google.com/file/d/1xRK9DDHIgynEz2fM-2fs9Kkbj9Z-gmzf/view)
-
-# 
 
 # ADO Pipeline Deployment Flowchart <a name="ado-pipeline-deployment-flowchart"></a>
 
@@ -80,12 +72,14 @@ There are two ways to clone the azure repository.
 
 1\. Copy the HTTPS url and use the git clone command in your terminal.
 
-| git clone *\<repo\_url\>* git checkout *\<branch\>* |
-| :---- |
+```bash
+git clone <repo_url> 
+git checkout <branch>
+```
 
 2\. Click on the Button “Clone in VS Code”. Select the destination folder and paste the generated git credentials.
 
-**![][image3]**
+![][image3]
 
 ## Create a GCP Project <a name="create-a-gcp-project"></a>
 
@@ -95,22 +89,70 @@ Following service to be created in the gcp project
 * And the JSON Key of the service account used for gcp authentication from ADO to GCP Environment.   
 * Api to be enabled in the setup gcp project.
 
-| accesscontextmanager.googleapis.com analyticshub.googleapis.com artifactregistry.googleapis.com bigquery.googleapis.com bigqueryconnection.googleapis.com bigquerydatapolicy.googleapis.com bigquerymigration.googleapis.com bigqueryreservation.googleapis.com bigquerystorage.googleapis.com billingbudgets.googleapis.com cloudapis.googleapis.com cloudasset.googleapis.com cloudbilling.googleapis.com cloudbuild.googleapis.com cloudfunctions.googleapis.com cloudkms.googleapis.com cloudresourcemanager.googleapis.com cloudtrace.googleapis.com compute.googleapis.com containerregistry.googleapis.com dataform.googleapis.com dataplex.googleapis.com datastore.googleapis.com essentialcontacts.googleapis.com iam.googleapis.com iamcredentials.googleapis.com iap.googleapis.com logging.googleapis.com monitoring.googleapis.com oslogin.googleapis.com policysimulator.googleapis.com pubsub.googleapis.com secretmanager.googleapis.com securitycenter.googleapis.com securitycentermanagement.googleapis.com servicemanagement.googleapis.com servicenetworking.googleapis.com serviceusage.googleapis.com source.googleapis.com sourcerepo.googleapis.com sql-component.googleapis.com storage-api.googleapis.com storage-component.googleapis.com storage.googleapis.com |
-| :---- |
+```
+accesscontextmanager.googleapis.com
+analyticshub.googleapis.com
+artifactregistry.googleapis.com
+bigquery.googleapis.com
+bigqueryconnection.googleapis.com
+bigquerydatapolicy.googleapis.com
+bigquerymigration.googleapis.com
+bigqueryreservation.googleapis.com
+bigquerystorage.googleapis.com
+billingbudgets.googleapis.com
+cloudapis.googleapis.com
+cloudasset.googleapis.com
+cloudbilling.googleapis.com
+cloudbuild.googleapis.com
+cloudfunctions.googleapis.com
+cloudkms.googleapis.com
+cloudresourcemanager.googleapis.com
+cloudtrace.googleapis.com
+compute.googleapis.com
+containerregistry.googleapis.com
+dataform.googleapis.com
+dataplex.googleapis.com
+datastore.googleapis.com
+essentialcontacts.googleapis.com
+iam.googleapis.com
+iamcredentials.googleapis.com
+iap.googleapis.com
+logging.googleapis.com
+monitoring.googleapis.com
+oslogin.googleapis.com
+policysimulator.googleapis.com
+pubsub.googleapis.com
+secretmanager.googleapis.com
+securitycenter.googleapis.com
+securitycentermanagement.googleapis.com
+servicemanagement.googleapis.com
+servicenetworking.googleapis.com
+serviceusage.googleapis.com
+source.googleapis.com
+sourcerepo.googleapis.com
+sql-component.googleapis.com
+storage-api.googleapis.com
+storage-component.googleapis.com
+storage.googleapis.com
 
+```
 
 ## Groups <a name="groups"></a>
 
 Following are the Groups to be created at Organization IAM Level.
-
-| gcp-organization-admins@example.com gcp-billing-admins@example.com gcp-billing-data@example.com gcp-audit-data@example.com gcp-monitoring-workspace@example.com |
-| :---- |
+```
+gcp-organization-admins@example.com
+gcp-billing-admins@example.com 
+gcp-billing-data@example.com 
+gcp-audit-data@example.com 
+gcp-monitoring-workspace@example.com
+```
 
 ## Service Account IAM Prerequisites <a name="service-account-iam-prerequisites"></a>
 
 | Service Account  | IAM Permission  | Level  |
 | :---- | :---- | :---- |
-| Super Admin Email(The Setup Service Account to Execute the ADO Pipeline) | Access Context Manager Editor | Organization |
+| Super Admin Email<br />(The Setup Service Account to <br />Execute the ADO Pipeline) | Access Context Manager Editor | Organization |
 |  | Billing Account User | Organization |
 |  | Compute Admin | Organization |
 |  | Compute Network Viewer | Organization |
@@ -141,7 +183,7 @@ The Azure Library stores environment variables used as inputs for the ADO pipeli
 | Variable Name  | Description |
 | :---- | :---- |
 | BILLING\_ID  | The billing account ID is an 18-character alphanumeric value assigned to your GCP Cloud Billing account. |
-| DOMAIN | The Domain Name of the Organization eg: google.com |
+| DOMAIN | The Domain Name of the Organization eg: google.com |
 | GCP\_SA\_KEY | The Json File of the GCP Service account (super admin)which is used for setup of the ado pipeline.  |
 | ORG\_ID | The organization resource ID is a unique identifier for an organization resource. |
 | PERIMETER USER  | It is the admin user to be added in VPC-SC Perimeter(access level). At least one user to be added. |
@@ -159,11 +201,98 @@ Upload the Service Account Json File into the Azure-\>Library-\>Secure file.The 
 
 The Azure Pipeline YAML defines a sequential workflow composed of multiple stages. Each stage relies on template YAML files to execute Bash scripts, which in turn orchestrate Terraform operations (init, plan, apply). These template YAML files incorporate the Azure Library as a variables group to access necessary environment variables and also install terraform and various tools.Additionally, the YAML files manage tool installation, GCP credential configuration, and export necessary environment variables for the pipeline's execution.
 
-Yaml Path: /TEF-GCP-LZ-HS/azure-pipelines  
-Scripts Path:/TEF-GCP-LZ-HS/automation-scripts
+Yaml Path: azure-pipelines  
+Scripts Path: automation-scripts
 
-| trigger: none  variables:  \- group: 'GCP\_ZA\_ADO-baseline-stages'  stages:  \- stage: Setup    displayName: 'Setup Tools'    jobs:      \- job: Access\_GCP\_environment        displayName: 'Access to GCP'        pool:          vmImage: 'ubuntu-latest'        steps:          \- template: templates/securefile-template.yaml      \- job: InstallTools        displayName: 'Install Terraform'        dependsOn: Access\_GCP\_environment        pool:          vmImage: 'ubuntu-latest'        steps:          \- script: |              curl \-fsSL https://apt.releases.hashicorp.com/gpg | sudo apt-key add \-              sudo apt-add-repository "deb \[arch=amd64\] https://apt.releases.hashicorp.com              $(lsb\_release \-cs) main"              sudo apt-get install \-y wget unzip              wget  https://releases.hashicorp.com/terraform/1.6.0/terraform\_1.6.0\_linux\_amd64.zip              unzip terraform\_1.6.0\_linux\_amd64.zip              sudo mv terraform /usr/local/bin/              sudo chmod \+x /usr/local/bin/terraform              terraform version              sudo apt-get update && sudo apt-get install dos2unix              sudo apt-get update && sudo apt-get install google-cloud-sdk              sudo apt-get install google-cloud-cli-terraform-tools \-y              sudo apt-get install jq \-y              sudo apt update && sudo apt install python3                ls \-l              python3 ./fix\_tfvars\_symlinks.py .              find . \-type f \-name "\*.sh" | xargs chmod a+x              find . \-type f \-name "\*.sh" | xargs dos2unix             displayName: 'Install Terraform'            continueOnError: false   \- template: bootstrap\_stage/bootstrap.yaml    parameters:      stageName: bootstrap\_stage      continueOnError: false  \- template: org\_stage/org.yaml    parameters:      stageName: org\_stage      continueOnError: false   \- template: environments\_stage/environments.yaml    parameters:      stageName: environments\_stage      continueOnError: false   \- template: network\_hub\_spoke\_stage/network\_hub\_spoke.yaml    parameters:      stageName: network\_hub\_spoke\_stage      continueOnError: false   \- template: projects\_stage/projects.yaml    parameters:      stageName: projects\_stage      continueOnError: false   \- template: orgpolicies\_stage/orgpolicies.yaml    parameters:      stageName: orgpolicies\_stage      continueOnError: false   \- template: fortigate\_stage/fortigate.yaml    parameters:      stageName: fortigate\_stage      continueOnError: false |
-| :---- |
+```yaml
+
+trigger: none
+
+
+variables:
+ - group: 'GCP_ZA_ADO-baseline-stages'
+
+
+stages:
+ - stage: Setup
+   displayName: 'Setup Tools'
+   jobs:
+     - job: Access_GCP_environment
+       displayName: 'Access to GCP'
+       pool:
+         vmImage: 'ubuntu-latest'
+       steps:
+         - template: templates/securefile-template.yaml
+     - job: InstallTools
+       displayName: 'Install Terraform'
+       dependsOn: Access_GCP_environment
+       pool:
+         vmImage: 'ubuntu-latest'
+       steps:
+         - script: |
+             curl -fsSL https://apt.releases.hashicorp.com/gpg | sudo apt-key add -
+             sudo apt-add-repository "deb [arch=amd64] https://apt.releases.hashicorp.com              $(lsb_release -cs) main"
+             sudo apt-get install -y wget unzip
+             wget  https://releases.hashicorp.com/terraform/1.6.0/terraform_1.6.0_linux_amd64.zip
+             unzip terraform_1.6.0_linux_amd64.zip
+             sudo mv terraform /usr/local/bin/
+             sudo chmod +x /usr/local/bin/terraform
+             terraform version
+             sudo apt-get update && sudo apt-get install dos2unix
+             sudo apt-get update && sudo apt-get install google-cloud-sdk
+             sudo apt-get install google-cloud-cli-terraform-tools -y
+             sudo apt-get install jq -y
+             sudo apt update && sudo apt install python3  
+             ls -l
+             python3 ./fix_tfvars_symlinks.py .
+             find . -type f -name "*.sh" | xargs chmod a+x
+             find . -type f -name "*.sh" | xargs dos2unix
+
+
+           displayName: 'Install Terraform'
+           continueOnError: false
+
+
+ - template: bootstrap_stage/bootstrap.yaml
+   parameters:
+     stageName: bootstrap_stage
+     continueOnError: false
+ - template: org_stage/org.yaml
+   parameters:
+     stageName: org_stage
+     continueOnError: false
+
+
+ - template: environments_stage/environments.yaml
+   parameters:
+     stageName: environments_stage
+     continueOnError: false
+
+
+ - template: network_hub_spoke_stage/network_hub_spoke.yaml
+   parameters:
+     stageName: network_hub_spoke_stage
+     continueOnError: false
+
+
+ - template: projects_stage/projects.yaml
+   parameters:
+     stageName: projects_stage
+     continueOnError: false
+
+
+ - template: orgpolicies_stage/orgpolicies.yaml
+   parameters:
+     stageName: orgpolicies_stage
+     continueOnError: false
+
+
+ - template: fortigate_stage/fortigate.yaml
+   parameters:
+     stageName: fortigate_stage
+     continueOnError: false
+
+```
 
 ## 0-Bootstrap Yaml and Script Execution <a name="0-bootstrap-yaml-and-script-execution"></a>
 
@@ -171,7 +300,7 @@ The Bootstrap YAML file initializes the pipeline by exporting essential environm
 
 | Stage  | Description |
 | :---- | :---- |
-| 0-bootstrap | Bootstrap is a Google Cloud organization. This step also configures a CI/CD pipeline for the blueprint code in subsequent stages. The CICD project contains the Cloud Build foundation pipeline for deploying resources. The seed project includes the Cloud Storage buckets that contain the Terraform state of the foundation infrastructure and includes highly privileged service accounts that are used by the foundation pipeline to create resources. The Terraform state is protected through storage Object Versioning. When the CI/CD pipeline runs, it acts as the service accounts that are managed in the seed project. |
+| <nobr>0-bootstrap</nobr> | Bootstrap is a Google Cloud organization. This step also configures a CI/CD pipeline for the blueprint code in subsequent stages. The CICD project contains the Cloud Build foundation pipeline for deploying resources. The seed project includes the Cloud Storage buckets that contain the Terraform state of the foundation infrastructure and includes highly privileged service accounts that are used by the foundation pipeline to create resources. The Terraform state is protected through storage Object Versioning. When the CI/CD pipeline runs, it acts as the service accounts that are managed in the seed project. |
 
 ## 1-Org Yaml and Script Execution <a name="1-org-yaml-and-script-execution"></a>
 
@@ -189,7 +318,7 @@ The deployment pipeline utilizes an environment YAML file to download an 1-Org A
 
 | Stage | Description |
 | :---- | :---- |
-| 2-environments | Sets up development, non-production, and production environments within the Google Cloud organization that you've created. |
+| <nobr>2-environments</nobr> | Sets up development, non-production, and production environments within the Google Cloud organization that you've created. |
 
 ## VPC Config YAML
 
@@ -294,7 +423,7 @@ The deployment pipeline utilizes an environment YAML file to download an 2-Envir
 
 | Stage | Description |
 | :---- | :---- |
-| 3-networks-hub-and-spoke | Sets up shared VPCs in your chosen topology and the associated network resources. |
+| <nobr>3-networks-hub-and-spoke</nobr> | Sets up shared VPCs in your chosen topology and the associated network resources. |
 
 ## 4-projects Yaml and Script Execution <a name="4-projects-yaml-and-script-execution"></a>
 
@@ -361,11 +490,6 @@ The Command set \+e is used to disable the \-e option where some errors are to b
 6. /TEF-GCP-LZ-HS/6-org-policies/readme.md  
 7. /TEF-GCP-LZ-HS/7-fortigate/README.md
 
-## Pipeline Flow Chart <a name="pipeline-flow-chart"></a>
-
-![][image5]
-
-# 
 
 # Steps for ADO Pipeline Execution <a name="steps-for-ado-pipeline-execution"></a>
 
@@ -373,13 +497,9 @@ When initiating the ADO pipeline, specify the desired branch according to the fo
 
 ![][image6]
 
-![][image7]
-
 Select the stages to be executed ,for the end to end exectuion of the whole pipeline all stages to be selected and click on the run button. 
 
 ![][image8]
-
-![][image9]
 
 ## ADO Pipeline Execution Time: <a name="ado-pipeline-execution-time"></a>
 
@@ -398,37 +518,23 @@ Following are two ways to execute/rerun the Failed jobs :
 1. **Rerun Single Job**:To Re-execute the single failed job click on the “Rerun failed jobs” .  
 2. **Rerun Remaining Failed Jobs**:To Re-execute all remaining failed jobs click on the “Rerun all jobs”,for eg like below example it will re-execute the following network stage then projects and so on. 
 
-![][image12]
-
 ## Re-run New Pipeline on Intermittent errors <a name="re-run-new-pipeline-on-intermittent-errors"></a>
 
 The ADO pipeline can cause  intermittent errors, particularly provider issues arising during the early 0-bootstrap or 1-org stages. In such instances, a complete pipeline rerun is necessary to ensure data integrity and prevent subsequent failures. Furthermore, if a job within the pipeline encounters a 'resource already exists' error, it indicates an underlying conflict that necessitates a fresh pipeline execution from the beginning to avoid unexpected outcomes and maintain deployment stability. 
 
-NB: see the [Cleanup Script](#the-cleanup-script) section below.
 
-# 
+[image1]: ./images/architecture-with-appliance.svg
 
-# The Cleanup Script <a name="the-cleanup-script"></a>
+[image2]: ./images/deployment-flowchart.svg
 
-The Cleanup Script is used for deletion of all the resources created by ado pipeline  and it avoids unwanted deletion scanning of (vpc,firewall policy) for unnecessary projects/folders.
+[image3]: ./images/ado-clone.png
 
-The script operates in a tiered fashion:
+[image4]: ./images/ado-library.png
 
-* **Disabling VPCs**: It focuses only on folders containing "network" in their name. This ensures that projects actually utilizing network resources are being disabled.  
-* **Firewall Policy Remova**l: It targets folders named "common" to remove associated firewall policies and their connections. This assumes firewall policies relevant to multiple projects reside in this folder.  
-* **Comprehensive Cleanup**: For all remaining projects, the script performs a comprehensive cleanup by deleting liens, unlinking billing accounts, and removing both projects and subfolders and parent folder.
+[image6]: ./images/ado-run.png
 
-**Note**:The Cleanup Script should be performed by the perimeter user mentioned in Azure Variables .To Disabled Restricted shared vpc the script needs to be performed by the perimeter user.
+[image8]: ./images/ado-run-stages.png
 
-Steps to perform the shell script in Cloud shell/VM:
+[image10]: ./images/ado-jobs.png
 
-1.Edit the parent folder is in the [script](https://dev.azure.com/ccticei/Migration/_workitems/edit/2648/).For example  
-![][image13]  
-export PARENT\_FOLDER\_ID=123456789  
-export organization\_id=946862951350
-
-sh cleanup.sh
-
-2.Execute the Script.  
-![][image14]  
-
+[image11]: ./images/resource-structure.png
