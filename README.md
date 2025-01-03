@@ -2,9 +2,20 @@
 
 This repository is used to create a Protected B Medium-Medium (PBMM) compliant Landing Zone on Google Cloud. 
 
+Please refer to [Technical Design Documentation](./docs/technical-design-document.md) for the full detailed design. 
+
+Pour les documents fourni en français, veuillez vous référer à la [Documentation de conception technique](./docs/document-de-conception-technique.md).
+
+## ADO Automation 
+
+A end-to-end ADO automation has been provided as part of this repo.  The [ADO Pipeline Documentation](./docs/ado-pipeline-documentation.md) comprehensively outlines the Azure DevOps pipeline based deployment option, from its architectural foundation to execution and troubleshooting. 
+
+Pour les documents fourni en français, veuillez vous référer à la [Documentation du pipeline ADO](./docs/documentation-du-pipeline-ado.md).
+
+
+# Terraform Example Foundation (TEF)
+
 This repository is a specific deployment of the [Terraform Example Foundation (TEF)](https://github.com/GoogleCloudPlatform/terraform-example-foundation).  It is intended to compliment the TEF to provide additional resources necessary for PBMM compliance.
-
-
 
 # About terraform-example-foundation
 
