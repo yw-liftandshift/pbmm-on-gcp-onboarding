@@ -25,7 +25,7 @@ steps:
       apt-get install jq -y
       apt update && apt install python3  # Installs latest Python 3 version
       ls -l
-      python3 ./fix_tfvars_symlinks.py .
+      # python3 ./fix_tfvars_symlinks.py .
       find . -type f -name "*.sh" | xargs chmod a+x
       find . -type f -name "*.sh" | xargs dos2unix
       export SUPER_ADMIN_EMAIL=$_SUPER_ADMIN_EMAIL
