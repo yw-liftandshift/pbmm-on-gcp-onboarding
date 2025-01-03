@@ -50,7 +50,7 @@ Hub and Spoke network model. It also sets up the global DNS hub</td>
 </table>
 
 For an overview of the architecture and the parts, see the
-[terraform-example-foundation README](https://github.com/terraform-google-modules/terraform-example-foundation)
+[pbmm-on-gcp-onboarding README](https://github.com/GoogleCloudPlatform/pbmm-on-gcp-onboarding)
 file.
 
 ## Purpose
@@ -81,7 +81,7 @@ commands. The `-T` flag is needed for Linux, but causes problems for MacOS.
 ### Deploying with Cloud Build
 
 1. Clone the `gcp-policies` repo based on the Terraform output from the `0-bootstrap` step.
-Clone the repo at the same level of the `terraform-example-foundation` folder, the following instructions assume this layout.
+Clone the repo at the same level of the `pbmm-on-gcp-onboarding` folder, the following instructions assume this layout.
 Run `terraform output cloudbuild_project_id` in the `0-bootstrap` folder to get the Cloud Build Project ID.
 
    ```bash
@@ -101,7 +101,7 @@ Run `terraform output cloudbuild_project_id` in the `0-bootstrap` folder to get 
    cd gcp-policies-app-infra
    git checkout -b main
 
-   cp -RT ../terraform-example-foundation/policy-library/ .
+   cp -RT ../pbmm-on-gcp-onboarding/policy-library/ .
    ```
 
 1. Commit changes and push your main branch to the new repo.
@@ -133,9 +133,9 @@ Run `terraform output cloudbuild_project_id` in the `0-bootstrap` folder to get 
    cd bu1-example-app
    git checkout -b plan
 
-   cp -RT ../terraform-example-foundation/5-app-infra/ .
-   cp ../terraform-example-foundation/build/cloudbuild-tf-* .
-   cp ../terraform-example-foundation/build/tf-wrapper.sh .
+   cp -RT ../pbmm-on-gcp-onboarding/5-app-infra/ .
+   cp ../pbmm-on-gcp-onboarding/build/cloudbuild-tf-* .
+   cp ../pbmm-on-gcp-onboarding/build/tf-wrapper.sh .
    chmod 755 ./tf-wrapper.sh
    ```
 
@@ -194,10 +194,10 @@ Run `terraform output cloudbuild_project_id` in the `0-bootstrap` folder to get 
 
 ### Run Terraform locally
 
-1. The next instructions assume that you are at the same level of the `terraform-example-foundation` folder. Change into `5-app-infra` folder, copy the Terraform wrapper script and ensure it can be executed.
+1. The next instructions assume that you are at the same level of the `pbmm-on-gcp-onboarding` folder. Change into `5-app-infra` folder, copy the Terraform wrapper script and ensure it can be executed.
 
    ```bash
-   cd terraform-example-foundation/5-app-infra
+   cd pbmm-on-gcp-onboarding/5-app-infra
    cp ../build/tf-wrapper.sh .
    chmod 755 ./tf-wrapper.sh
    ```
