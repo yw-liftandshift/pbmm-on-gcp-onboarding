@@ -31,7 +31,7 @@ En Français: [Documentation du pipeline ADO](./documentation-du-pipeline-ado.md
   * [Reference README Files](#reference-readme-files)
 * [Steps for ADO Pipeline Execution](#steps-for-ado-pipeline-execution)
   * [ADO Pipeline Execution Time](#ado-pipeline-execution-time)
-  * [Output: GCP Folder Structure](#output:-gcp-folder-structure)
+  * [Output: GCP Folder Structure](#gcp-folder-structure)
   * [Steps to Re-run Failed Jobs](#steps-to-re-run-failed-jobs)
   * [Re-run New Pipeline on Intermittent errors](#re-run-new-pipeline-on-intermittent-errors)
 
@@ -506,7 +506,7 @@ Select the stages to be executed ,for the end to end exectuion of the whole pipe
 Following are the Approx Execution Time for the ADO Pipeline Jobs/Stages.The approx overall time is around 1 hour 45 minutes.   
 ![][image10]
 
-## Output: GCP Folder Structure  <a name="output:-gcp-folder-structure"></a>
+## Output: GCP Folder Structure  <a name="gcp-folder-structure"></a>
 
 The following is a sample output of an executed ADO pipeline, showcasing the various resources organized within their corresponding directories.  
 ![][image11]
