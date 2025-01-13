@@ -48,16 +48,16 @@ Also make sure that you have the following:
 
 ### Clone Terraform Example Foundation repo
 
-1. Clone [terraform-example-foundation](https://github.com/terraform-google-modules/terraform-example-foundation) into your local environment.
+1. Clone [pbmm-on-gcp-onboarding](https://github.com/GoogleCloudPlatform/pbmm-on-gcp-onboarding) into your local environment.
 
    ```bash
-   git clone https://github.com/terraform-google-modules/terraform-example-foundation.git
+   git clone https://github.com/GoogleCloudPlatform/pbmm-on-gcp-onboarding.git
    ```
 
 ### Create git branches
 
 1. The instructions described in this document require that the branches used in the Terraform Example Foundation deploy to exist and to be [protected](https://docs.gitlab.com/ee/user/project/protected_branches.html). Follow the instructions on this section to create all the branches.
-1. Clone all the private projects you created at the same level of the `terraform-example-foundation` folder.
+1. Clone all the private projects you created at the same level of the `pbmm-on-gcp-onboarding` folder.
 You must have [SSH keys](https://docs.gitlab.com/ee/user/ssh.html) configured with GitLab for [authentication](https://docs.github.com/en/authentication/keeping-your-account-and-data-secure/about-authentication-to-github).
 
    ```bash
@@ -88,7 +88,7 @@ You must have [SSH keys](https://docs.gitlab.com/ee/user/ssh.html) configured wi
    gcp-networks/
    gcp-org/
    gcp-projects/
-   terraform-example-foundation/
+   pbmm-on-gcp-onboarding/
    ```
 
 1. The following branches must be created in your git projects .
@@ -104,7 +104,7 @@ You must have [SSH keys](https://docs.gitlab.com/ee/user/ssh.html) configured wi
 Run the `0-bootstrap/scripts/git_create_branches_helper.sh` script to create these branches with a seed file for each repository automatically.
 
    ```bash
-   ./terraform-example-foundation/0-bootstrap/scripts/git_create_branches_helper.sh GITLAB
+   ./pbmm-on-gcp-onboarding/0-bootstrap/scripts/git_create_branches_helper.sh GITLAB
    ```
 
 1. The script will output logs related to the branches creation in the console and it will output the message
@@ -129,8 +129,8 @@ Run the `0-bootstrap/scripts/git_create_branches_helper.sh` script to create the
 1. Copy contents of foundation to cloned project (modify accordingly based on your current directory).
 
    ```bash
-   cp ../terraform-example-foundation/build/gitlab-ci.yml ./.gitlab-ci.yml
-   cp ../terraform-example-foundation/0-bootstrap/Dockerfile ./Dockerfile
+   cp ../pbmm-on-gcp-onboarding/build/gitlab-ci.yml ./.gitlab-ci.yml
+   cp ../pbmm-on-gcp-onboarding/0-bootstrap/Dockerfile ./Dockerfile
    ```
 
 1. Save the CI/CD runner configuration to `gcp-cicd-runner` GitLab project:
@@ -171,11 +171,11 @@ Run the `0-bootstrap/scripts/git_create_branches_helper.sh` script to create the
    ```bash
    mkdir -p envs/shared
 
-   cp -RT ../terraform-example-foundation/0-bootstrap/ ./envs/shared
-   cp -RT ../terraform-example-foundation/policy-library/ ./policy-library
-   cp ../terraform-example-foundation/build/gitlab-ci.yml ./.gitlab-ci.yml
-   cp ../terraform-example-foundation/build/run_gcp_auth.sh .
-   cp ../terraform-example-foundation/build/tf-wrapper.sh .
+   cp -RT ../pbmm-on-gcp-onboarding/0-bootstrap/ ./envs/shared
+   cp -RT ../pbmm-on-gcp-onboarding/policy-library/ ./policy-library
+   cp ../pbmm-on-gcp-onboarding/build/gitlab-ci.yml ./.gitlab-ci.yml
+   cp ../pbmm-on-gcp-onboarding/build/run_gcp_auth.sh .
+   cp ../pbmm-on-gcp-onboarding/build/tf-wrapper.sh .
    chmod 755 ./*.sh
    cd ./envs/shared
    ```
@@ -214,7 +214,7 @@ export the GitLab personal or group access token as an environment variable:
 1. Use the helper script [validate-requirements.sh](../scripts/validate-requirements.sh) to validate your environment:
 
    ```bash
-   ../../../terraform-example-foundation/scripts/validate-requirements.sh  -o <ORGANIZATION_ID> -b <BILLING_ACCOUNT_ID> -u <END_USER_EMAIL> -e
+   ../../../pbmm-on-gcp-onboarding/scripts/validate-requirements.sh  -o <ORGANIZATION_ID> -b <BILLING_ACCOUNT_ID> -u <END_USER_EMAIL> -e
    ```
 
    **Note:** The script is not able to validate if the user is in a Cloud Identity or Google Workspace group with the required roles.
@@ -337,11 +337,11 @@ we recommend that you request 50 additional projects for the **projects step ser
 1. Copy contents of foundation to new repo.
 
    ```bash
-   cp -RT ../terraform-example-foundation/1-org/ .
-   cp -RT ../terraform-example-foundation/policy-library/ ./policy-library
-   cp ../terraform-example-foundation/build/gitlab-ci.yml ./.gitlab-ci.yml
-   cp ../terraform-example-foundation/build/run_gcp_auth.sh .
-   cp ../terraform-example-foundation/build/tf-wrapper.sh .
+   cp -RT ../pbmm-on-gcp-onboarding/1-org/ .
+   cp -RT ../pbmm-on-gcp-onboarding/policy-library/ ./policy-library
+   cp ../pbmm-on-gcp-onboarding/build/gitlab-ci.yml ./.gitlab-ci.yml
+   cp ../pbmm-on-gcp-onboarding/build/run_gcp_auth.sh .
+   cp ../pbmm-on-gcp-onboarding/build/tf-wrapper.sh .
    chmod 755 ./*.sh
    ```
 
@@ -439,11 +439,11 @@ See the shared folder [README.md](../1-org/envs/shared/README.md#inputs) for add
 1. Copy contents of foundation to new repo.
 
    ```bash
-   cp -RT ../terraform-example-foundation/2-environments/ .
-   cp -RT ../terraform-example-foundation/policy-library/ ./policy-library
-   cp ../terraform-example-foundation/build/gitlab-ci.yml ./.gitlab-ci.yml
-   cp ../terraform-example-foundation/build/run_gcp_auth.sh .
-   cp ../terraform-example-foundation/build/tf-wrapper.sh .
+   cp -RT ../pbmm-on-gcp-onboarding/2-environments/ .
+   cp -RT ../pbmm-on-gcp-onboarding/policy-library/ ./policy-library
+   cp ../pbmm-on-gcp-onboarding/build/gitlab-ci.yml ./.gitlab-ci.yml
+   cp ../pbmm-on-gcp-onboarding/build/run_gcp_auth.sh .
+   cp ../pbmm-on-gcp-onboarding/build/tf-wrapper.sh .
    chmod 755 ./*.sh
    ```
 
@@ -524,11 +524,11 @@ or go to [Deploying step 3-networks-hub-and-spoke](#deploying-step-3-networks-hu
 1. Copy contents of foundation to new repo.
 
    ```bash
-   cp -RT ../terraform-example-foundation/3-networks-dual-svpc/ .
-   cp -RT ../terraform-example-foundation/policy-library/ ./policy-library
-   cp ../terraform-example-foundation/build/gitlab-ci.yml ./.gitlab-ci.yml
-   cp ../terraform-example-foundation/build/run_gcp_auth.sh .
-   cp ../terraform-example-foundation/build/tf-wrapper.sh .
+   cp -RT ../pbmm-on-gcp-onboarding/3-networks-dual-svpc/ .
+   cp -RT ../pbmm-on-gcp-onboarding/policy-library/ ./policy-library
+   cp ../pbmm-on-gcp-onboarding/build/gitlab-ci.yml ./.gitlab-ci.yml
+   cp ../pbmm-on-gcp-onboarding/build/run_gcp_auth.sh .
+   cp ../pbmm-on-gcp-onboarding/build/tf-wrapper.sh .
    chmod 755 ./*.sh
    ```
 
@@ -671,11 +671,11 @@ An environment variable `GOOGLE_IMPERSONATE_SERVICE_ACCOUNT` will be set with th
 1. Copy contents of foundation to new repo.
 
    ```bash
-   cp -RT ../terraform-example-foundation/3-networks-hub-and-spoke/ .
-   cp -RT ../terraform-example-foundation/policy-library/ ./policy-library
-   cp ../terraform-example-foundation/build/gitlab-ci.yml ./.gitlab-ci.yml
-   cp ../terraform-example-foundation/build/run_gcp_auth.sh .
-   cp ../terraform-example-foundation/build/tf-wrapper.sh .
+   cp -RT ../pbmm-on-gcp-onboarding/3-networks-hub-and-spoke/ .
+   cp -RT ../pbmm-on-gcp-onboarding/policy-library/ ./policy-library
+   cp ../pbmm-on-gcp-onboarding/build/gitlab-ci.yml ./.gitlab-ci.yml
+   cp ../pbmm-on-gcp-onboarding/build/run_gcp_auth.sh .
+   cp ../pbmm-on-gcp-onboarding/build/tf-wrapper.sh .
    chmod 755 ./*.sh
    ```
 
@@ -807,11 +807,11 @@ An environment variable `GOOGLE_IMPERSONATE_SERVICE_ACCOUNT` will be set with th
 1. Copy contents of foundation to new repo.
 
    ```bash
-   cp -RT ../terraform-example-foundation/4-projects/ .
-   cp -RT ../terraform-example-foundation/policy-library/ ./policy-library
-   cp ../terraform-example-foundation/build/gitlab-ci.yml ./.gitlab-ci.yml
-   cp ../terraform-example-foundation/build/run_gcp_auth.sh .
-   cp ../terraform-example-foundation/build/tf-wrapper.sh .
+   cp -RT ../pbmm-on-gcp-onboarding/4-projects/ .
+   cp -RT ../pbmm-on-gcp-onboarding/policy-library/ ./policy-library
+   cp ../pbmm-on-gcp-onboarding/build/gitlab-ci.yml ./.gitlab-ci.yml
+   cp ../pbmm-on-gcp-onboarding/build/run_gcp_auth.sh .
+   cp ../pbmm-on-gcp-onboarding/build/tf-wrapper.sh .
    chmod 755 ./*.sh
    ```
 

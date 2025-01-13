@@ -52,13 +52,13 @@ Also make sure that you have the following:
 
 ### Instructions
 
-1. Clone [terraform-example-foundation](https://github.com/terraform-google-modules/terraform-example-foundation) into your local environment.
+1. Clone [pbmm-on-gcp-onboarding](https://github.com/GoogleCloudPlatform/pbmm-on-gcp-onboarding) into your local environment.
 
    ```bash
-   git clone https://github.com/terraform-google-modules/terraform-example-foundation.git
+   git clone https://github.com/GoogleCloudPlatform/pbmm-on-gcp-onboarding.git
    ```
 
-1. Clone all the private repositories (or projects) you created at the same level of the `terraform-example-foundation` folder.
+1. Clone all the private repositories (or projects) you created at the same level of the `pbmm-on-gcp-onboarding` folder.
 You must be authenticated to the VCS provider. See [GitHub authentication](https://docs.github.com/en/authentication/keeping-your-account-and-data-secure/about-authentication-to-github) or [GitLab authentication](https://docs.github.com/en/authentication/keeping-your-account-and-data-secure/about-authentication-to-github) for more details.
 
    ```bash
@@ -85,7 +85,7 @@ You must be authenticated to the VCS provider. See [GitHub authentication](https
    gcp-environments/
    gcp-networks/
    gcp-projects/
-   terraform-example-foundation/
+   pbmm-on-gcp-onboarding/
    ```
 
 1. In your VCS repositories (or projects) it is expected to have the following branches created. Also, these branches shouldn't be empty, you need at least a single file. Run `scripts/git_create_branches_helper.sh` script to create these branches with a seed file for each repository automatically.
@@ -97,8 +97,8 @@ You must be authenticated to the VCS provider. See [GitHub authentication](https
    - Note: `scripts/git_create_branches_helper.sh` script and the following commands assume you are running it from the directory that has all the repos cloned (layout described in the previous step). If you run from another directory, adjust the `BASE_PATH` variable at the `scripts/git_create_branches_helper.sh` and adjust in the following commands.
 
    ```bash
-   chmod 755 ./terraform-example-foundation/0-bootstrap/scripts/git_create_branches_helper.sh
-   ./terraform-example-foundation/0-bootstrap/scripts/git_create_branches_helper.sh
+   chmod 755 ./pbmm-on-gcp-onboarding/0-bootstrap/scripts/git_create_branches_helper.sh
+   ./pbmm-on-gcp-onboarding/0-bootstrap/scripts/git_create_branches_helper.sh
    ```
 
    You will see some GIT logs related to the branches creation in the console and the message  `"Branch creation and push completed for all repositories"` at the end of the script execution.
@@ -129,7 +129,7 @@ You must be authenticated to the VCS provider. See [GitHub authentication](https
 
    ```bash
    mkdir -p envs/shared
-   cp -RT ../terraform-example-foundation/0-bootstrap/ ./envs/shared
+   cp -RT ../pbmm-on-gcp-onboarding/0-bootstrap/ ./envs/shared
    cd ./envs/shared
    ```
 
@@ -186,7 +186,7 @@ export the OAuth Token ID as an environment variable:
 1. Use the helper script [validate-requirements.sh](../scripts/validate-requirements.sh) to validate your environment:
 
    ```bash
-   ../../../terraform-example-foundation/scripts/validate-requirements.sh  -o <ORGANIZATION_ID> -b <BILLING_ACCOUNT_ID> -u <END_USER_EMAIL> -e
+   ../../../pbmm-on-gcp-onboarding/scripts/validate-requirements.sh  -o <ORGANIZATION_ID> -b <BILLING_ACCOUNT_ID> -u <END_USER_EMAIL> -e
    ```
 
    **Note:** The script is not able to validate if the user is in a Cloud Identity or Google Workspace group with the required roles.
@@ -243,8 +243,8 @@ export the OAuth Token ID as an environment variable:
    ```bash
    mv backend.tf.cloud.example backend.tf
    cd ../../../
-   chmod 775 ./terraform-example-foundation/scripts/set-tfc-backend-and-remote.sh
-   ./terraform-example-foundation/scripts/set-tfc-backend-and-remote.sh
+   chmod 775 ./pbmm-on-gcp-onboarding/scripts/set-tfc-backend-and-remote.sh
+   ./pbmm-on-gcp-onboarding/scripts/set-tfc-backend-and-remote.sh
    cd ./gcp-bootstrap/envs/shared
    ```
 
@@ -297,7 +297,7 @@ we recommend that you request 50 additional projects for the **projects step ser
 1. Copy contents of foundation to new repo.
 
    ```bash
-   cp -RT ../terraform-example-foundation/1-org/ .
+   cp -RT ../pbmm-on-gcp-onboarding/1-org/ .
    ```
 
 1. Rename `./envs/shared/terraform.example.tfvars` to `./envs/shared/terraform.tfvars`
@@ -389,7 +389,7 @@ See the shared folder [README.md](../1-org/envs/shared/README.md#inputs) for add
 1. Copy contents of foundation to new repo.
 
    ```bash
-   cp -RT ../terraform-example-foundation/2-environments/ .
+   cp -RT ../pbmm-on-gcp-onboarding/2-environments/ .
    ```
 
 1. Rename `terraform.example.tfvars` to `terraform.tfvars`.
@@ -467,9 +467,9 @@ or go to [Deploying step 3-networks-hub-and-spoke](#deploying-step-3-networks-hu
 1. Copy contents of foundation to new repo.
 
    ```bash
-   cp -RT ../terraform-example-foundation/3-networks-dual-svpc/ .
-   cp -RT ../terraform-example-foundation/policy-library/ ./policy-library
-   cp ../terraform-example-foundation/build/tf-wrapper.sh .
+   cp -RT ../pbmm-on-gcp-onboarding/3-networks-dual-svpc/ .
+   cp -RT ../pbmm-on-gcp-onboarding/policy-library/ ./policy-library
+   cp ../pbmm-on-gcp-onboarding/build/tf-wrapper.sh .
    chmod 755 ./tf-wrapper.sh
    ```
 
@@ -629,9 +629,9 @@ An environment variable `GOOGLE_IMPERSONATE_SERVICE_ACCOUNT` will be set with th
 1. Copy contents of foundation to new repo.
 
    ```bash
-   cp -RT ../terraform-example-foundation/3-networks-hub-and-spoke/ .
-   cp -RT ../terraform-example-foundation/policy-library/ ./policy-library
-   cp ../terraform-example-foundation/build/tf-wrapper.sh .
+   cp -RT ../pbmm-on-gcp-onboarding/3-networks-hub-and-spoke/ .
+   cp -RT ../pbmm-on-gcp-onboarding/policy-library/ ./policy-library
+   cp ../pbmm-on-gcp-onboarding/build/tf-wrapper.sh .
    chmod 755 ./tf-wrapper.sh
    ```
 
@@ -780,9 +780,9 @@ An environment variable `GOOGLE_IMPERSONATE_SERVICE_ACCOUNT` will be set with th
 1. Copy contents of foundation to new repo.
 
    ```bash
-   cp -RT ../terraform-example-foundation/4-projects/ .
-   cp -RT ../terraform-example-foundation/policy-library/ ./policy-library
-   cp ../terraform-example-foundation/build/tf-wrapper.sh .
+   cp -RT ../pbmm-on-gcp-onboarding/4-projects/ .
+   cp -RT ../pbmm-on-gcp-onboarding/policy-library/ ./policy-library
+   cp ../pbmm-on-gcp-onboarding/build/tf-wrapper.sh .
    chmod 755 ./tf-wrapper.sh
    ```
 
