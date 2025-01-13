@@ -515,7 +515,7 @@ Sélectionnez les étapes à exécuter, de bout en bout exécution de l'ensemble
 Voici le temps d'exécution approximatif des tâches/étapes du pipeline ADO. La durée totale approximative est d'environ 1 heure 45 minutes.   
 ![][image10]
 
-## Résultat : Structure des dossiers GCP  <a name="résultat :-structure-des-dossiers-gcp"></a>
+## Résultat : Structure des dossiers GCP  <a name="résultat"></a>
 
 Voici un exemple de sortie d’un pipeline ADO exécuté, présentant les différentes ressources organisées dans leurs répertoires correspondants.  
 ![][image11]
@@ -527,7 +527,6 @@ Voici deux manières d'exécuter/réexécuter les tâches ayant échoué :
 1. **Réexécuter une tâche unique**:Pour réexécuter le travail ayant échoué, cliquez sur « Réexécuter les travaux ayant échoué ».  
 2. **Réexécuter les tâches ayant échoué restantes**:Pour réexécuter tous les travaux ayant échoué, cliquez sur « Réexécuter tous les travaux », par exemple, comme dans l'exemple ci-dessous, il réexécutera l'étape réseau suivante, puis les projets, etc. 
 
-![][image12]
 
 ## Réexécutez le nouveau pipeline en cas d'erreurs intermittentes <a name="réexécutez-le-nouveau-pipeline-en-cas-d'erreurs-intermittentes"></a>
 
