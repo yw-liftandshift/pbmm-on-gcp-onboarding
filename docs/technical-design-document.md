@@ -42,7 +42,7 @@ En Français: [Document de conception technique](./document-de-conception-techni
   * [Operational Best Practices](#operational-best-practices)
 * [Appendix 1: Naming Conventions](#naming-conventions)
 * [Appendix 2: Mapping Controls to Code](#mapping-controls-to-code)
-* [Appendix 3: Reference Materials](#appendix-3:-reference-materials)
+* [Appendix 3: Reference Materials](#reference-materials)
 
 # Documentation overview <a name="documentation-overview"></a>
 
@@ -3412,7 +3412,7 @@ Google Infrastructure Security \- Whitepaper that gives an overview of Google's 
 Cloud Memorystore \- Fully managed in-memory data store service for Redis, built on scalable, secure, and highly available infrastructure. Use Cloud Memorystore to build application caches that provides sub-millisecond data access. Cloud Memorystore instances are isolated and protected from the internet using private IPs and are further secured using IAM role-based access control.  
 [https://cloud.google.com/memorystore/](https://cloud.google.com/memorystore/)
 
-# Appendix 3: Reference Materials <a name="appendix-3:-reference-materials"></a>
+# Appendix 3: Reference Materials <a name="reference-materials"></a>
 
 * [Enterprise Foundation Blueprint \- Documentation](https://cloud.google.com/architecture/security-foundations)  
 * [GC Cloud Guardrails Checks for Google Cloud Platform](https://github.com/canada-ca/cloud-guardrails-gcp)  
