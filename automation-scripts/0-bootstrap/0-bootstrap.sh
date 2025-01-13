@@ -19,7 +19,9 @@ echo "Base Directory:" $base_dir
 cd "$base_dir/0-bootstrap"
 
 echo "here" $GOOGLE_IMPERSONATE_SERVICE_ACCOUNT
-./prep.sh tf_local
+if [ ! -f "./backend.tf" ]; then
+  ./prep.sh tf_local
+fi
 
 ls -ltr
 
@@ -34,12 +36,18 @@ sed -i'' -e "s/PARENT_FOLDER_REPLACE_ME/${ROOT_FOLDER_ID}/" ./terraform.tfvars
 #Replace Region Value
 sed -i'' -e "s/DEFAULT_REGION_REPLACE_ME/${REGION}/" ./terraform.tfvars
 
-sed -i'' -e "s/user_project_override = true/credentials = file(var.gcp_credentials_file)\n\tuser_project_override = true/" ./provider.tf
+if ! grep -Fq "gcp_credentials_file" ./provider.tf
+then
+  sed -i'' -e "s/user_project_override = true/credentials = file(var.gcp_credentials_file)\n\tuser_project_override = true/" ./provider.tf
+fi
 
-content="variable \"gcp_credentials_file\" {
-  description = \"Path to the Google Cloud Platform service account key file\"
-  type        = string
-}"
+if ! grep -Fq "gcp_credentials_file" ./variables.tf
+then
+  content="variable \"gcp_credentials_file\" {
+    description = \"Path to the Google Cloud Platform service account key file\"
+    type        = string
+  }"
+fi
 
 echo "$content" >> variables.tf 
 

@@ -1,12 +1,14 @@
 #!/bin/bash
 set -xe
 
-ls -la
-rm -rf -- $(ls | grep -v env.tar.gz)
-ls -la
-tar -zxf env.tar.gz
-ls -la
-rm -f env.tar.gz
+if [ -f "./env.tar.gz" ]; then
+  ls -la
+  rm -rf -- $(ls | grep -v env.tar.gz)
+  ls -la
+  tar -zxf env.tar.gz
+  ls -la
+  rm -f env.tar.gz
+fi
 
 base_dir=$(pwd)
 cd $base_dir/7-fortigate
@@ -42,7 +44,6 @@ terraform apply fortigate.tfplan
 unset GOOGLE_IMPERSONATE_SERVICE_ACCOUNT
 set +e
 
+rm -rf ./shared/.terraform
 cd ..
-
 ls -la
-pwd

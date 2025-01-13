@@ -3,7 +3,7 @@ steps:
   name: googleCredentials
   displayName: 'Download GCP Service Account Key'
   inputs:
-    secureFile: 'sa-test-gcp-7b0280cc42fa.json'
+    secureFile: 'sa-test-gcp.json'
 
 - script: |
     echo "Setting environment variable for Google credentials"
