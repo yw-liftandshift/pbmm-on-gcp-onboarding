@@ -117,7 +117,7 @@ Clone the repo at the same level of the `pbmm-on-gcp-onboarding` folder.
 If required, run `terraform output cloudbuild_project_id` in the `0-bootstrap` folder to get the Cloud Build Project ID.
 
    ```bash
-   export CLOUD_BUILD_PROJECT_ID=$(terraform -chdir="pbmm-on-gcp-onboarding/0-bootstrap/" output -raw cloudbuild_project_id)
+   export CLOUD_BUILD_PROJECT_ID=$(terraform -chdir="../0-bootstrap/" output -raw cloudbuild_project_id)
    echo ${CLOUD_BUILD_PROJECT_ID}
 
    gcloud source repos clone gcp-org --project=${CLOUD_BUILD_PROJECT_ID}
@@ -200,7 +200,7 @@ If required, run `terraform output cloudbuild_project_id` in the `0-bootstrap` f
 If you received a `PERMISSION_DENIED` error while running the `gcloud access-context-manager` or the `gcloud scc notifications` commands, you can append the following to run the command as the Terraform service account:
 
 ```bash
---impersonate-service-account=$(terraform -chdir="../pbmm-on-gcp-onboarding/0-bootstrap/" output -raw organization_step_terraform_service_account_email)
+--impersonate-service-account=$(terraform -chdir="../0-bootstrap/" output -raw organization_step_terraform_service_account_email)
 ```
 
 ### Deploying with Jenkins
@@ -217,7 +217,7 @@ See `0-bootstrap` [README-GitHub.md](../0-bootstrap/README-GitHub.md#deploying-s
 Change into the `1-org` folder, copy the Terraform wrapper script, and ensure it can be executed.
 
    ```bash
-   cd pbmm-on-gcp-onboarding/1-org
+   cd ../1-org
    cp ../build/tf-wrapper.sh .
    chmod 755 ./tf-wrapper.sh
    ```

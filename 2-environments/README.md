@@ -94,7 +94,7 @@ Clone the repo at the same level of the `pbmm-on-gcp-onboarding` folder, the fol
 Run `terraform output cloudbuild_project_id` in the `0-bootstrap` folder to get the Cloud Build Project ID.
 
    ```bash
-   export CLOUD_BUILD_PROJECT_ID=$(terraform -chdir="pbmm-on-gcp-onboarding/0-bootstrap/" output -raw cloudbuild_project_id)
+   export CLOUD_BUILD_PROJECT_ID=$(terraform -chdir="../0-bootstrap/" output -raw cloudbuild_project_id)
    echo ${CLOUD_BUILD_PROJECT_ID}
 
    gcloud source repos clone gcp-environments --project=${CLOUD_BUILD_PROJECT_ID}
@@ -123,7 +123,7 @@ Run `terraform output cloudbuild_project_id` in the `0-bootstrap` folder to get 
 1. Update the file with values from your environment and bootstrap (you can re-run `terraform output` in the 0-bootstrap directory to find these values). See any of the envs folder [README.md](./envs/production/README.md#inputs) files for additional information on the values in the `terraform.tfvars` file.
 
    ```bash
-   export backend_bucket=$(terraform -chdir="../pbmm-on-gcp-onboarding/0-bootstrap/" output -raw gcs_bucket_tfstate)
+   export backend_bucket=$(terraform -chdir="../0-bootstrap/" output -raw gcs_bucket_tfstate)
    echo "remote_state_bucket = ${backend_bucket}"
 
    sed -i'' -e "s/REMOTE_STATE_BUCKET/${backend_bucket}/" terraform.tfvars
@@ -185,7 +185,7 @@ See `0-bootstrap` [README-GitHub.md](../0-bootstrap/README-GitHub.md#deploying-s
 1. The next instructions assume that you are at the same level of the `pbmm-on-gcp-onboarding` folder. Change into `2-environments` folder, copy the Terraform wrapper script and ensure it can be executed.
 
    ```bash
-   cd pbmm-on-gcp-onboarding/2-environments
+   cd 2-environments
    cp ../build/tf-wrapper.sh .
    chmod 755 ./tf-wrapper.sh
    ```
