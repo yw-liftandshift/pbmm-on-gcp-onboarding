@@ -69,3 +69,13 @@ Follow the deployment instructions in [4-projects#run-terraform-locally](../4-pr
 ## Tips
 
 We also strongly recommend that you do not nest an Assured Workloads folder within another Assured Workloads folder - even if they are the same compliance framework - as this will cause errors. You can, however, nest Assured Workloads folders and non-Assured Workloads folders with each other.
+
+## Related Resources
+
+-  [Assured Workloads Quick Start Guide](https://services.google.com/fh/files/misc/assured_workloads_quick_start_guide_0423.pdf)
+-  [Data Boundary for Canada Protected B](https://docs.cloud.google.com/assured-workloads/docs/control-packages/canada-protected-b)
+- [Google Cloud’s Protected B Compliance](https://cloud.google.com/security/compliance/protected-b)
+-  [Personnel Data Access Controls](https://docs.cloud.google.com/assured-workloads/docs/personnel-access-data-controls)
+-  [Control Data Access using Access Approval](https://docs.cloud.google.com/assured-workloads/docs/access-approval)
+-  [VPC Service Controls](https://docs.cloud.google.com/vpc-service-controls/docs/overview)
+-  [Best Practices for Enabling VPC Service Controls](https://docs.cloud.google.com/vpc-service-controls/docs/enable)
