@@ -1,7 +1,7 @@
 locals {
 
-  env                = "development"
-  folder_name        = "group-1a"
+  env                = "production"
+  folder_name        = "group-pb-1"
   project_prefix     = "group1"
 
   parent_folder_name = data.terraform_remote_state.env.outputs.env_folder
