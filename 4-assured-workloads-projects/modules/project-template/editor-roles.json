@@ -1,0 +1,24 @@
+{
+  "roles": [
+    "roles/aiplatform.user",
+    "roles/bigquery.user",
+    "roles/alloydb.databaseUser",
+    "roles/cloudsql.editor",
+    "roles/storage.admin",
+    "roles/storage.bucketViewer",
+    "roles/compute.instanceAdmin",
+    "roles/compute.networkUser",
+    "roles/monitoring.editor",
+    "roles/logging.viewer",
+    "roles/cloudbuild.builds.editor",
+    "roles/artifactregistry.writer",
+    "roles/dataplex.editor",
+    "roles/dataplex.catalogEditor",
+    "roles/run.developer",
+    "roles/cloudfunctions.developer",
+    "roles/container.developer",
+    "roles/secretmanager.admin",
+    "roles/accesscontextmanager.policyEditor",
+    "roles/cloudscheduler.admin"
+  ]
+}

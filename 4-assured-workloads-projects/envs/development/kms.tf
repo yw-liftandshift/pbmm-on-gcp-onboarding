@@ -15,3 +15,25 @@ resource "google_project_service" "kms_project_apis" {
   service            = each.value
   disable_on_destroy = false
 }
+
+# Create key ring
+resource "google_kms_key_ring" "keyring" {
+  name     = "keyring-${local.project_prefix}"
+  location = local.regions[0]
+  project  = google_project.kms_project.project_id
+
+}
+
+
+
+# Cretae crypto key
+resource "google_kms_crypto_key" "kms_key" {
+  name            = "crypto_key-${local.project_prefix}"
+  key_ring        = google_kms_key_ring.keyring.id
+  rotation_period = "10368000s" #120 days
+
+  lifecycle {
+    prevent_destroy = false ## For actual workload, change to true
+  }
+  depends_on = [google_kms_key_ring.keyring]
+}

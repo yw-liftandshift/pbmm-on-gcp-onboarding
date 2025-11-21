@@ -3,6 +3,7 @@
 locals {
 
   editor_group = var.editor_group
+  admin_group  = var.admin_group
   project_name = var.project_name
 
   vpc_name = "secure-vpc"
@@ -12,28 +13,9 @@ locals {
   data_classification = var.metadata.data_classification
   project_type = var.metadata.type
 
-  editor_roles = [
-    "roles/aiplatform.user",
-    "roles/bigquery.user",
-    "roles/alloydb.databaseUser",
-    "roles/cloudsql.editor",
-    "roles/storage.admin",
-    "roles/storage.bucketViewer",
-    "roles/compute.instanceAdmin",
-    "roles/compute.networkUser",
-    "roles/monitoring.editor",
-    "roles/logging.viewer",
-    "roles/cloudbuild.builds.editor",
-    "roles/artifactregistry.writer",
-    "roles/dataplex.editor",
-    "roles/dataplex.catalogEditor",
-    "roles/run.developer",
-    "roles/cloudfunctions.developer",
-    "roles/container.developer",
-    "roles/secretmanager.admin",
-    "roles/accesscontextmanager.policyEditor",
-    "roles/cloudscheduler.admin",
-  ]
+  editor_roles = jsondecode(file("${path.module}/editor-roles.json")).roles
+  admin_roles  = jsondecode(file("${path.module}/admin-roles.json")).roles
+
   apis_to_enable = [
     "serviceusage.googleapis.com",
     "cloudresourcemanager.googleapis.com",
@@ -66,6 +48,15 @@ locals {
     ]
   ])
 
+  admin_group_roles = flatten([
+    for admin_group in local.admin_group : [
+      for role in local.admin_roles : {
+        key    = "${admin_group}-${role}"
+        member = "group:${admin_group}@${var.identity_domain}"
+        role   = role
+      }
+    ]
+  ])
 }
 
 resource "random_string" "suffix" {
@@ -99,3 +90,15 @@ resource "google_project_iam_member" "editor_group_bindings" {
 
   depends_on = [google_project_service.apis]
 }
+
+resource "google_project_iam_member" "admin_group_bindings" {
+
+  for_each = { for item in local.admin_group_roles : item.key => item }
+
+  project = google_project.main.project_id
+  role    = each.value.role
+  member  = each.value.member
+
+  depends_on = [google_project_service.apis]
+}
+

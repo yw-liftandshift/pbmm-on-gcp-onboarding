@@ -6,6 +6,7 @@ module "projects" {
   source   = "../../modules/project-template"
 
   project_name = each.value.project_name
+  admin_group  = each.value.admin_group
   editor_group = each.value.editor_group
 
   identity_domain   = local.identity_domain 

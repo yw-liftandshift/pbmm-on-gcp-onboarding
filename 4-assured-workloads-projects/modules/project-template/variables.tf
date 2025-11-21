@@ -9,6 +9,13 @@ variable "editor_group" {
   type        = list(string)
 }
 
+variable "admin_group" {
+  description = "The email of the group that will be granted admin roles."
+  type        = list(string)
+  default     = []
+}
+
+
 variable "identity_domain" {
   description = "The domain associated with the Google Workspace / Cloud Identity account."
   type        = string
