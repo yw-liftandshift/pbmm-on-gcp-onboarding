@@ -14,7 +14,7 @@
  * limitations under the License.
  */
  
- 
+
 module "projects" {
 
   for_each = local.projects
@@ -34,5 +34,7 @@ module "projects" {
   project_prefix    = local.project_prefix
 
   regions = local.regions
+
+  remote_state_bucket = var.remote_state_bucket
 
 }
