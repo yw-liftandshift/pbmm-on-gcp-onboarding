@@ -1,7 +1,7 @@
 {
   "project-1": {
     "project_name": "project-1-pb",
-    "editor_group": [ "gcp-editors-proj1" ],
+    "editor_group": [ "gcp-editors-proj-aw-1" ],
     "admin_group": [ ],
     "template": "project-template-1-admin",
     "metadata": {
@@ -11,7 +11,7 @@
   },
   "project-2": {
     "project_name": "project-2-pb",
-    "editor_group": [ "gcp-editors-proj1" ],
+    "editor_group": [ "gcp-editors-proj-aw-1" ],
     "admin_group": [ ],
     "template": "project-template-1",
     "metadata": {
@@ -21,7 +21,7 @@
   },
   "project-3": {
     "project_name": "project-3",
-    "editor_group": [ "gcp-editors-proj1" ],
+    "editor_group": [ "gcp-editors-proj-aw-1" ],
     "admin_group": [ ],
     "template": "project-template-1",
     "metadata": {

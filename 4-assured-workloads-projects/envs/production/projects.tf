@@ -14,6 +14,7 @@
  * limitations under the License.
  */
  
+
 module "projects" {
 
   for_each = local.projects
@@ -29,8 +30,11 @@ module "projects" {
   metadata = each.value.metadata
 
   billing_account   = local.billing_account
-  folder            = each.value.metadata.data_classification == "unclass" ? google_folder.folder_unclass.name : google_assured_workloads_workload.folder_pb.resources[0].resource_id
+  folder            = each.value.metadata.data_classification == "unclass" ? google_folder.folder_unclass.name : google_assured_workloads_workload.folder_pb_db.resources[0].resource_id
   project_prefix    = local.project_prefix
 
+  regions = local.regions
+
+  remote_state_bucket = var.remote_state_bucket
 
 }

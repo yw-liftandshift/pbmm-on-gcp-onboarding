@@ -34,8 +34,8 @@ resource "google_project_service" "enable_api_aw" {
   depends_on                 = [google_project.dependency_project]
 }
 
-resource "google_assured_workloads_workload" "folder_pb" {
-  compliance_regime         = "CA_PROTECTED_B"
+resource "google_assured_workloads_workload" "folder_pb_db" {
+  compliance_regime         = "DATA_BOUNDARY_FOR_CANADA_PROTECTED_B"
   display_name              = "fldr-${local.folder_name}-pb-${random_string.suffix.result}"
   location                  = "ca"
   organization              = local.organization

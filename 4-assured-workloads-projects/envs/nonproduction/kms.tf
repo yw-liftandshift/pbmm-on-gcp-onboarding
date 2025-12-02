@@ -14,12 +14,11 @@
  * limitations under the License.
  */
  
- 
 
 resource "google_project" "kms_project" {
   name                = "${local.project_prefix}-kms"
   project_id          = "${local.project_prefix}-kms-${random_string.suffix.result}"
-  folder_id           = google_assured_workloads_workload.folder_pb.resources[0].resource_id
+  folder_id           = google_assured_workloads_workload.folder_pb_db.resources[0].resource_id
   billing_account     = local.billing_account
   auto_create_network = false
   deletion_policy     = "DELETE"
