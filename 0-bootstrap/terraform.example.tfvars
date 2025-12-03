@@ -50,6 +50,19 @@ default_region = "northamerica-northeast1"
 # The folder must already exist.
 parent_folder = "01234567890"
 
+/* ----------------------------------------
+    Specific to azure devops
+   ---------------------------------------- */
+# azure_devops_config = {
+#   allowed_audiences = [ "https://management.azure.com/" ]
+#   app_id = "" # app object id in entra
+#   issuer_uri = "https://sts.windows.net/tenantid" # azure tenant id
+#   bootstrap = "gcp-bootstrap"
+#   org = "gcp-org"
+#   env = "gcp-env"
+#   net = "gcp-networks"
+#   proj = "gcp-projects"
+# }
 
 /* ----------------------------------------
     Specific to github_bootstrap

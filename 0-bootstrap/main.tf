@@ -103,16 +103,16 @@ module "seed_bootstrap" {
   sa_org_iam_permissions = []
 }
 
-#Adding logic to create a local copy of fortigate image
-resource "google_compute_image" "fgtvmgvnic" {
-  count = var.nictype == "GVNIC" ? 1 : 0
-  name  = "fgtvmgvnic-image"
+# Add if needed. Adding logic to create a local copy of fortigate image
+# resource "google_compute_image" "fgtvmgvnic" {
+#   count = var.nictype == "GVNIC" ? 1 : 0
+#   name  = "fgtvmgvnic-image"
 
-  source_image = var.image
-  storage_locations = ["northamerica-northeast2"]
-  project = module.seed_bootstrap.seed_project_id
+#   source_image = var.image
+#   storage_locations = ["northamerica-northeast2"]
+#   project = module.seed_bootstrap.seed_project_id
 
-  guest_os_features {
-    type = var.nictype
-  }
-}
+#   guest_os_features {
+#     type = var.nictype
+#   }
+# }
