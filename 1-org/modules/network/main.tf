@@ -36,7 +36,8 @@ module "base_shared_vpc_host_project" {
     "servicenetworking.googleapis.com",
     "container.googleapis.com",
     "logging.googleapis.com",
-    "billingbudgets.googleapis.com"
+    "billingbudgets.googleapis.com",
+    "networksecurity.googleapis.com"
   ]
 
   labels = {
@@ -75,7 +76,8 @@ module "restricted_shared_vpc_host_project" {
     "logging.googleapis.com",
     "cloudresourcemanager.googleapis.com",
     "accesscontextmanager.googleapis.com",
-    "billingbudgets.googleapis.com"
+    "billingbudgets.googleapis.com",
+    "networksecurity.googleapis.com"
   ]
 
   labels = {

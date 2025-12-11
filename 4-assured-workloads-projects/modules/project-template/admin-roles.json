@@ -1,0 +1,15 @@
+{
+  "roles": [
+    "roles/resourcemanager.projectIamAdmin",
+    "roles/serviceusage.serviceUsageAdmin",
+    "roles/iam.serviceAccountAdmin",
+    "roles/compute.admin",
+    "roles/storage.admin",
+    "roles/cloudsql.admin",
+    "roles/logging.admin",
+    "roles/monitoring.admin",
+    "roles/secretmanager.admin",
+    "roles/cloudkms.admin",
+    "roles/billing.projectManager"
+  ]
+}

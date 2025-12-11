@@ -317,6 +317,23 @@ Using Terraform Cloud requires manual creation of the GitHub repositories or Git
 
 1. Continue with the instructions in the [1-org](../1-org/README.md) step.
 
+1. If needed, add `iam.serviceAccountTokenCreator` to user impersonating service account. 
+
+
+```bash
+export ADMIN_USER=$(gcloud auth list --filter=status:ACTIVE --format="value(account)")
+export SEED_PROJECT_ID=$(terraform -chdir="../0-bootstrap/" output -raw seed_project_id)
+export BOOTSTRAP_SA=$(terraform -chdir="../0-bootstrap/" output -raw bootstrap_step_terraform_service_account_email)
+gcloud iam service-accounts add-iam-policy-binding $BOOTSTRAP_SA \
+    --member="user:$ADMIN_USER" \
+    --role="roles/iam.serviceAccountUser" \
+    --project=$SEED_PROJECT_ID
+gcloud iam service-accounts add-iam-policy-binding $BOOTSTRAP_SA \
+    --member="user:$ADMIN_USER" \
+    --role="roles/iam.serviceAccountTokenCreator" \
+    --project=$SEED_PROJECT_ID
+```
+
 **Note 1:** The stages after `0-bootstrap` use `terraform_remote_state` data source to read common configuration like the organization ID from the output of the `0-bootstrap` stage. They will [fail](../docs/TROUBLESHOOTING.md#error-unsupported-attribute) if the state is not copied to the Cloud Storage bucket.
 
 **Note 2:** After the deploy, even if you did not receive the project quota error described in the [Troubleshooting guide](../docs/TROUBLESHOOTING.md#project-quota-exceeded), we recommend that you request 50 additional projects for the **projects step service account** created in this step.

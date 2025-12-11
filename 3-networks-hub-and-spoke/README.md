@@ -68,7 +68,7 @@ The purpose of this step is to:
 1. Obtain the value for the access_context_manager_policy_id variable. It can be obtained by running the following commands. We assume you are at the same level as directory `pbmm-on-gcp-onboarding`, If you run them from another directory, adjust your paths accordingly.
 
    ```bash
-   export ORGANIZATION_ID=$(terraform -chdir="pbmm-on-gcp-onboarding/0-bootstrap/" output -json common_config | jq '.org_id' --raw-output)
+   export ORGANIZATION_ID=$(terraform -chdir="../0-bootstrap/" output -json common_config | jq '.org_id' --raw-output)
    export ACCESS_CONTEXT_MANAGER_ID=$(gcloud access-context-manager policies list --organization ${ORGANIZATION_ID} --format="value(name)")
    echo "access_context_manager_policy_id = ${ACCESS_CONTEXT_MANAGER_ID}"
    ```
@@ -162,9 +162,9 @@ Run `terraform output cloudbuild_project_id` in the `0-bootstrap` folder to get 
    cd gcp-networks/
    git checkout -b plan
 
-   cp -RT ../pbmm-on-gcp-onboarding/3-networks-hub-and-spoke/ .
-   cp ../pbmm-on-gcp-onboarding/build/cloudbuild-tf-* .
-   cp ../pbmm-on-gcp-onboarding/build/tf-wrapper.sh .
+   cp -RT ../3-networks-hub-and-spoke/ .
+   cp ../build/cloudbuild-tf-* .
+   cp ../build/tf-wrapper.sh .
    chmod 755 ./tf-wrapper.sh
    ```
 
@@ -182,13 +182,13 @@ Run `terraform output cloudbuild_project_id` in the `0-bootstrap` folder to get 
    Use `terraform output` to get the backend bucket value from 0-bootstrap output.
 
    ```bash
-   export ORGANIZATION_ID=$(terraform -chdir="../pbmm-on-gcp-onboarding/0-bootstrap/" output -json common_config | jq '.org_id' --raw-output)
+   export ORGANIZATION_ID=$(terraform -chdir="../0-bootstrap/" output -json common_config | jq '.org_id' --raw-output)
    export ACCESS_CONTEXT_MANAGER_ID=$(gcloud access-context-manager policies list --organization ${ORGANIZATION_ID} --format="value(name)")
    echo "access_context_manager_policy_id = ${ACCESS_CONTEXT_MANAGER_ID}"
 
    sed -i'' -e "s/ACCESS_CONTEXT_MANAGER_ID/${ACCESS_CONTEXT_MANAGER_ID}/" ./access_context.auto.tfvars
 
-   export backend_bucket=$(terraform -chdir="../pbmm-on-gcp-onboarding/0-bootstrap/" output -raw gcs_bucket_tfstate)
+   export backend_bucket=$(terraform -chdir="../0-bootstrap/" output -raw gcs_bucket_tfstate)
    echo "remote_state_bucket = ${backend_bucket}"
 
    sed -i'' -e "s/REMOTE_STATE_BUCKET/${backend_bucket}/" ./common.auto.tfvars
@@ -334,6 +334,23 @@ To use the `validate` option of the `tf-wrapper.sh` script, please follow the [i
    export GOOGLE_IMPERSONATE_SERVICE_ACCOUNT=$(terraform -chdir="../0-bootstrap/" output -raw networks_step_terraform_service_account_email)
    echo ${GOOGLE_IMPERSONATE_SERVICE_ACCOUNT}
    ```
+
+1. If needed, add `iam.serviceAccountTokenCreator` to user impersonating service account. 
+
+
+```bash
+export ADMIN_USER=$(gcloud auth list --filter=status:ACTIVE --format="value(account)")
+export SEED_PROJECT_ID=$(terraform -chdir="../0-bootstrap/" output -raw seed_project_id)
+export NETWORK_SA=$(terraform -chdir="../0-bootstrap/" output -raw networks_step_terraform_service_account_email)
+gcloud iam service-accounts add-iam-policy-binding $NETWORK_SA \
+    --member="user:$ADMIN_USER" \
+    --role="roles/iam.serviceAccountUser" \
+    --project=$SEED_PROJECT_ID
+gcloud iam service-accounts add-iam-policy-binding $NETWORK_SA \
+    --member="user:$ADMIN_USER" \
+    --role="roles/iam.serviceAccountTokenCreator" \
+    --project=$SEED_PROJECT_ID
+```
 
 1. Run `init` and `plan` and review output for environment shared.
 

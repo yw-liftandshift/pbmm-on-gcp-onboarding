@@ -389,7 +389,7 @@ variable "initial_group_config" {
 
 variable "nictype" {
   type    = string
-  default = "GVNIC"
+  default = ""  # set to GVNIC to enable Fortinet
 }
 
 variable "image" {
