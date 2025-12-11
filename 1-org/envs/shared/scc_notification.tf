@@ -30,6 +30,15 @@ resource "random_string" "scc_notification_key_suffix" {
 resource "google_pubsub_topic" "scc_notification_topic" {
   name    = "top-scc-notification"
   project = module.scc_notifications.project_id
+
+  message_storage_policy {
+    allowed_persistence_regions = [
+      "northamerica-northeast1",
+      "northamerica-northeast2",
+    ]
+    # enforce_in_transit = true
+  }
+
 }
 
 resource "google_pubsub_subscription" "scc_notification_subscription" {
