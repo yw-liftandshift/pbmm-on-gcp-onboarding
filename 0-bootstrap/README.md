@@ -118,6 +118,38 @@ See [onprem](./onprem.md) for instructions on how to configure Cloud Build acces
 
 See [troubleshooting](../docs/TROUBLESHOOTING.md) if you run into issues during this step.
 
+## Deploying with Azure DevOps
+
+Using Azure Devops to deploy will require extra steps to configure Azure Devops to authenticate.  See [ADO Pipeline Documentation](../docs/ado-pipeline-documentation.md) for requirements and instructions on how to set up Azure Devops. The ADO Pipeline infrastructure uses service account keys to authenticate.  The `azuredeveops.tf` file in `0-bootstrap/builders/azuredevops` provides infrastructure for workload identity federation.  The `build.yaml` file in `0-bootstrap/builders/azuredevops` is the ADO pipeline config. 
+
+### Steps
+
+**1. Setup Azure**
+
+* Follow this: https://learn.microsoft.com/en-au/entra/identity-platform/howto-create-service-principal-portal#register-an-application-with-azure-ad-and-create-a-service-principal
+* go to Entra, add App Registration
+* Enter a name, choose "Accounts in this organizational directory only (Default Directory only - Single tenant)"
+* Click Register
+* Add Application ID
+* Add Secret. Copy secret value for use in ADO.
+
+**2. Create a Variable Group, called `var-group` with the following variables:**
+
+- applicationId - from Azure application, eg. api://aaaaaaaa-bbbb-cccc-dddd-eeeeeeeeee
+- clientSecret - application_secret
+- projectName - from bootstrap output, eg.  prj-b-seed-nnnn
+- serviceAccountList - from bootstrap output, eg. {"gcp-bootstrap":"sa-terraform-bootstrap@prj-b-seed-nnnn.iam.gserviceaccount.com", "gcp-env":"sa-terraform-env@prj-b-seed-nnnn.iam.gserviceaccount.com", "gcp-networks":"sa-terraform-net@prj-b-seed-nnnn.iam.gserviceaccount.com", "gcp-org":"sa-terraform-org@prj-b-seed-nnnn.iam.gserviceaccount.com", "gcp-projects":"sa-terraform-proj@prj-b-seed-nnnn.iam.gserviceaccount.com"}
+- tenantId - from Azure tenant, eg. aaaaaaaa-bbbb-cccc-dddd-eeeeeeeeee
+- wifProviderName from output, eg. projects/nnnn/locations/global/workloadIdentityPools/foundation-pool/providers/foundation-provider
+
+
+**3. Set up ADO**
+
+* Browse Marketplace. Add Google Cloud Tools by nexsolab.
+* Create project and initialize repo. Create pipeline with build.yaml.
+* Test pipeline.
+
+
 ## Deploying with Jenkins
 
 If you are using the `jenkins_bootstrap` sub-module, see [README-Jenkins](./README-Jenkins.md)

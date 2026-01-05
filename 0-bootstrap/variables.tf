@@ -154,6 +154,24 @@ variable "initial_group_config" {
 }
 
 /* ----------------------------------------
+    Specific to azure devops
+   ---------------------------------------- */
+# variable "azure_devops_config" {
+#   description = "Configuration for Azure DevOps to be used to deploy the Terraform Example Foundation stages."
+#   type = object({
+#     allowed_audiences = list(string)
+#     app_id = string
+#     issuer_uri = string
+#     bootstrap = string
+#     org = string
+#     env = string
+#     net = string
+#     proj = string
+# }
+
+
+
+/* ----------------------------------------
     Specific to github_bootstrap
    ---------------------------------------- */
 
