@@ -40,7 +40,7 @@ groups = {
   # }
 }
 
-default_region = "us-central1"
+default_region = "northamerica-northeast1"
 
 # Optional - for an organization with existing projects or for development/validation.
 # Uncomment this variable to place all the example foundation resources under

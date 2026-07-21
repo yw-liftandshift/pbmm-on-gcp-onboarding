@@ -15,11 +15,14 @@
  */
 
 terraform {
-  required_version = ">= 0.13"
+  # required_version = ">= 0.13"
+  # Minimum version for modern state file handling
+  required_version = ">= 1.0.0"
   required_providers {
     google = {
       // version 4.31.0 removed because of issue https://github.com/hashicorp/terraform-provider-google/issues/12226
       source  = "hashicorp/google"
+      version = "~> 5.0" 
       # version = ">= 3.50, != 4.31.0"
     }
 

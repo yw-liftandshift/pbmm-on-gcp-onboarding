@@ -47,9 +47,10 @@ resource "google_pubsub_subscription" "scc_notification_subscription" {
   project = module.scc_notifications.project_id
 }
 
-resource "google_scc_notification_config" "scc_notification_config" {
+resource "google_scc_v2_organization_notification_config" "org_scc_config" {
   config_id    = local.scc_notification_name
   organization = local.org_id
+  location     = "global" # Can specify a regional location if data residency is enabled
   description  = "SCC Notification for all active findings"
   pubsub_topic = google_pubsub_topic.scc_notification_topic.id
 
@@ -57,3 +58,14 @@ resource "google_scc_notification_config" "scc_notification_config" {
     filter = var.scc_notification_filter
   }
 }
+
+# resource "google_scc_notification_config" "scc_notification_config" {
+#   config_id    = local.scc_notification_name
+#   organization = local.org_id
+#   description  = "SCC Notification for all active findings"
+#   pubsub_topic = google_pubsub_topic.scc_notification_topic.id
+
+#   streaming_config {
+#     filter = var.scc_notification_filter
+#   }
+# }
